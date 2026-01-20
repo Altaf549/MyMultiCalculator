@@ -16,6 +16,7 @@ import Icon from '@react-native-vector-icons/material-icons';
 import AppButton from '../components/AppButton';
 import AppInput from '../components/AppInput';
 import { Dropdown } from 'react-native-element-dropdown';
+import { CONVERSION_FACTORS } from '../mockData/ConversionFactors';
 import CategorySelector from '../components/CategorySelector';
 
 const UnitConverterScreen: React.FC = () => {
@@ -35,55 +36,8 @@ const UnitConverterScreen: React.FC = () => {
         value: unit,
     }));
 
-    // Conversion factors (to base unit - meter for length, kg for weight, etc.)
-    const conversionFactors: Record<string, Record<string, number>> = {
-        LENGTH: {
-            METER: 1,
-            KILOMETER: 0.001,
-            CENTIMETER: 100,
-            MILLIMETER: 1000,
-            MILE: 0.000621371,
-            YARD: 1.09361,
-            FOOT: 3.28084,
-            INCH: 39.3701,
-        },
-        WEIGHT: {
-            KILOGRAM: 1,
-            GRAM: 1000,
-            MILLIGRAM: 1000000,
-            POUND: 2.20462,
-            OUNCE: 35.274,
-            TON: 0.001,
-        },
-        TEMPERATURE: {
-            CELSIUS: 1,
-            FAHRENHEIT: 1,
-            KELVIN: 1,
-        },
-        VOLUME: {
-            LITER: 1,
-            MILLILITER: 1000,
-            GALLON: 0.264172,
-            QUART: 1.05669,
-            PINT: 2.11338,
-            CUP: 4.22675,
-            FLUID_OUNCE: 33.814,
-        },
-        AREA: {
-            'SQUARE_METER': 1,
-            'SQUARE_KILOMETER': 0.000001,
-            'SQUARE_CENTIMETER': 10000,
-            'SQUARE_MILE': 0.000000386102,
-            ACRE: 0.000247105,
-            HECTARE: 0.0001,
-        },
-        SPEED: {
-            'METER_PER_SECOND': 1,
-            'KILOMETER_PER_HOUR': 3.6,
-            'MILE_PER_HOUR': 2.23694,
-            KNOT: 1.94384,
-        },
-    };
+    // Conversion factors from mock data
+    const conversionFactors = CONVERSION_FACTORS;
 
     const convert = () => {
         if (!inputValue || !fromUnit || !toUnit) {
@@ -134,7 +88,7 @@ const UnitConverterScreen: React.FC = () => {
             setResult(resultValue.toFixed(6));
         } else {
             // Regular unit conversion
-            const factors = conversionFactors[selectedCategory];
+            const factors = conversionFactors[selectedCategory] as Record<string, number>;
             const fromFactor = factors[fromUnit];
             const toFactor = factors[toUnit];
 
@@ -164,7 +118,7 @@ const UnitConverterScreen: React.FC = () => {
             <View style={styles.categorySection}>
                 <CategorySelector
                     selectedCategory={selectedCategory}
-                    onCategoryChange={(category) => {
+                    onCategoryChange={(category: keyof typeof UNIT_CONVERTER.UNITS) => {
                         setSelectedCategory(category);
                         setFromUnit('');
                         setToUnit('');

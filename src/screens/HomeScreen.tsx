@@ -16,6 +16,7 @@ import { COMPONENT_SPACING } from '../styles/spacing';
 import { CALCULATORS, HOME_SCREEN } from '../utils/constants';
 import { RootStackParamList } from '../types/navigation';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { SIMPLE_CALCULATOR, SCIENTIFIC_CALCULATOR, BMI, EMI, AGE, GST, DISCOUNT, CURRENCY_CONVERTER,UNIT_CONVERTER } from '../navigation/Routes';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -29,7 +30,7 @@ const HomeScreen: React.FC = () => {
       title: CALCULATORS.SIMPLE.NAME,
       description: CALCULATORS.SIMPLE.DESCRIPTION,
       iconName: CALCULATORS.SIMPLE.ICON,
-      onPress: () => navigation.navigate('SimpleCalculator'),
+      onPress: () => navigation.navigate(SIMPLE_CALCULATOR),
       color: colors.SIMPLE_CALCULATOR,
     },
     {
@@ -37,7 +38,7 @@ const HomeScreen: React.FC = () => {
       title: CALCULATORS.SCIENTIFIC.NAME,
       description: CALCULATORS.SCIENTIFIC.DESCRIPTION,
       iconName: CALCULATORS.SCIENTIFIC.ICON,
-      onPress: () => navigation.navigate('ScientificCalculator'),
+      onPress: () => navigation.navigate(SCIENTIFIC_CALCULATOR),
       color: colors.SCIENTIFIC_CALCULATOR,
     },
     {
@@ -45,7 +46,7 @@ const HomeScreen: React.FC = () => {
       title: CALCULATORS.BMI.NAME,
       description: CALCULATORS.BMI.DESCRIPTION,
       iconName: CALCULATORS.BMI.ICON,
-      onPress: () => navigation.navigate('BMI'),
+      onPress: () => navigation.navigate(BMI),
       color: colors.BMI_CALCULATOR,
     },
     {
@@ -53,7 +54,7 @@ const HomeScreen: React.FC = () => {
       title: CALCULATORS.EMI.NAME,
       description: CALCULATORS.EMI.DESCRIPTION,
       iconName: CALCULATORS.EMI.ICON,
-      onPress: () => navigation.navigate('EMI'),
+      onPress: () => navigation.navigate(EMI),
       color: colors.EMI_CALCULATOR,
     },
     {
@@ -61,7 +62,7 @@ const HomeScreen: React.FC = () => {
       title: CALCULATORS.AGE.NAME,
       description: CALCULATORS.AGE.DESCRIPTION,
       iconName: CALCULATORS.AGE.ICON,
-      onPress: () => navigation.navigate('Age'),
+      onPress: () => navigation.navigate(AGE),
       color: colors.AGE_CALCULATOR,
     },
     {
@@ -69,7 +70,7 @@ const HomeScreen: React.FC = () => {
       title: CALCULATORS.GST.NAME,
       description: CALCULATORS.GST.DESCRIPTION,
       iconName: CALCULATORS.GST.ICON,
-      onPress: () => navigation.navigate('GST'),
+      onPress: () => navigation.navigate(GST),
       color: colors.GST_CALCULATOR,
     },
     {
@@ -77,7 +78,7 @@ const HomeScreen: React.FC = () => {
       title: CALCULATORS.DISCOUNT.NAME,
       description: CALCULATORS.DISCOUNT.DESCRIPTION,
       iconName: CALCULATORS.DISCOUNT.ICON,
-      onPress: () => navigation.navigate('Discount'),
+      onPress: () => navigation.navigate(DISCOUNT),
       color: colors.DISCOUNT_CALCULATOR,
     },
     {
@@ -85,7 +86,7 @@ const HomeScreen: React.FC = () => {
       title: CALCULATORS.CURRENCY.NAME,
       description: CALCULATORS.CURRENCY.DESCRIPTION,
       iconName: CALCULATORS.CURRENCY.ICON,
-      onPress: () => navigation.navigate('CurrencyConverter'),
+      onPress: () => navigation.navigate(CURRENCY_CONVERTER),
       color: colors.CURRENCY_CALCULATOR,
     },
     {
@@ -93,7 +94,7 @@ const HomeScreen: React.FC = () => {
       title: CALCULATORS.UNIT_CONVERTER.NAME,
       description: CALCULATORS.UNIT_CONVERTER.DESCRIPTION,
       iconName: CALCULATORS.UNIT_CONVERTER.ICON,
-      onPress: () => navigation.navigate('UnitConverter'),
+      onPress: () => navigation.navigate(UNIT_CONVERTER),
       color: colors.UNIT_CONVERTER,
     },
   ];

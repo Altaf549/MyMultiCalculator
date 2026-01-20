@@ -17,6 +17,7 @@ import CurrencyConverterScreen from '../screens/CurrencyConverterScreen';
 import UnitConverterScreen from '../screens/UnitConverterScreen';
 // Import types
 import { RootStackParamList } from '../types/navigation';
+import { HOME, SIMPLE_CALCULATOR, SCIENTIFIC_CALCULATOR, BMI, EMI, AGE, GST, DISCOUNT, CURRENCY_CONVERTER, UNIT_CONVERTER } from './Routes';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -42,70 +43,70 @@ const AppNavigator: React.FC = () => {
         }}
       >
         <Stack.Screen
-          name="Home"
+          name={HOME}
           component={HomeScreen}
           options={{
             title: 'Multi Calculator',
           }}
         />
         <Stack.Screen
-          name="SimpleCalculator"
+          name={SIMPLE_CALCULATOR}
           component={SimpleCalculatorScreen}
           options={{
             title: 'Simple Calculator',
           }}
         />
         <Stack.Screen
-          name="ScientificCalculator"
+          name={SCIENTIFIC_CALCULATOR}
           component={ScientificCalculatorScreen}
           options={{
             title: 'Scientific Calculator',
           }}
         />
         <Stack.Screen
-          name="BMI"
+          name={BMI}
           component={BmiScreen}
           options={{
             title: 'BMI Calculator',
           }}
         />
         <Stack.Screen
-          name="EMI"
+          name={EMI}
           component={EmiScreen}
           options={{
             title: 'EMI Calculator',
           }}
         />
         <Stack.Screen
-          name="Age"
+          name={AGE}
           component={AgeScreen}
           options={{
             title: 'Age Calculator',
           }}
         />
         <Stack.Screen
-          name="GST"
+          name={GST}
           component={GstScreen}
           options={{
             title: 'GST Calculator',
           }}
         />
         <Stack.Screen
-          name="Discount"
+          name={DISCOUNT}
           component={DiscountScreen}
           options={{
             title: 'Discount Calculator',
           }}
         />
         <Stack.Screen
-          name="CurrencyConverter"
+          name={CURRENCY_CONVERTER}
           component={CurrencyConverterScreen}
           options={{
             title: 'Currency Converter',
           }}
         />
         <Stack.Screen
-          name="UnitConverter"
+          name={UNIT_CONVERTER}
           component={UnitConverterScreen}
           options={{
             title: 'Unit Converter',
