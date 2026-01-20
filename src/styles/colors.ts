@@ -4,9 +4,9 @@ import { EMI_CALCULATOR, SCIENTIFIC_CALCULATOR } from "../utils/constants";
 
 export const COLORS = {
   // Primary Colors
-  PRIMARY: '#007AFF',
-  PRIMARY_LIGHT: '#5AC8FA',
-  PRIMARY_DARK: '#0051D5',
+  PRIMARY: '#009688',
+  PRIMARY_LIGHT: '#4DB6AC',
+  PRIMARY_DARK: '#00695C',
   
   // Secondary Colors
   SECONDARY: '#5856D6',
@@ -67,7 +67,7 @@ export const COLORS = {
   NEUTRAL: '#8E8E93',
   
   // Gradient Colors
-  GRADIENT_START: '#007AFF',
+  GRADIENT_START: '#009688',
   GRADIENT_END: '#5856D6',
   
   // Shadow Colors

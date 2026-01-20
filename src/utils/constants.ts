@@ -104,9 +104,17 @@ export const SCIENTIFIC_CALCULATOR = {
 export const BMI_CALCULATOR = {
   TITLE: 'BMI Calculator',
   WEIGHT_LABEL: 'Weight (kg)',
-  HEIGHT_LABEL: 'Height (cm)',
+  HEIGHT_LABEL: 'Height',
   WEIGHT_PLACEHOLDER: 'Enter weight',
   HEIGHT_PLACEHOLDER: 'Enter height',
+  HEIGHT_UNITS: {
+    CM: 'cm',
+    FEET_INCHES: 'ft/in'
+  },
+  FEET_LABEL: 'Feet',
+  INCHES_LABEL: 'Inches',
+  FEET_PLACEHOLDER: 'Enter feet',
+  INCHES_PLACEHOLDER: 'Enter inches',
   CATEGORIES: {
     UNDERWEIGHT: 'Underweight',
     NORMAL: 'Normal weight',
