@@ -1,5 +1,3 @@
-// App Constants and Static Text Strings
-
 export const APP_NAME = 'Multi Calculator';
 
 // Navigation
@@ -28,51 +26,71 @@ export const CALCULATORS = {
     NAME: 'Simple Calculator',
     DESCRIPTION: 'Basic arithmetic operations',
     ICON: 'calculate',
+    ROUTE: 'SimpleCalculator',
+    COLOR_KEY: 'SIMPLE_CALCULATOR',
   },
   SCIENTIFIC: {
     NAME: 'Scientific Calculator',
     DESCRIPTION: 'Advanced mathematical functions',
     ICON: 'calculate',
+    ROUTE: 'ScientificCalculator',
+    COLOR_KEY: 'SCIENTIFIC_CALCULATOR',
   },
   BMI: {
     NAME: 'BMI Calculator',
     DESCRIPTION: 'Body Mass Index calculator',
     ICON: 'person',
+    ROUTE: 'BMI',
+    COLOR_KEY: 'BMI_CALCULATOR',
   },
   EMI: {
     NAME: 'EMI Calculator',
     DESCRIPTION: 'Loan installment calculator',
     ICON: 'attach-money',
+    ROUTE: 'EMI',
+    COLOR_KEY: 'EMI_CALCULATOR',
   },
   AGE: {
     NAME: 'Age Calculator',
     DESCRIPTION: 'Calculate age from birth date',
     ICON: 'cake',
+    ROUTE: 'Age',
+    COLOR_KEY: 'AGE_CALCULATOR',
   },
   GST: {
     NAME: 'GST Calculator',
     DESCRIPTION: 'Goods and Services Tax calculator',
     ICON: 'receipt',
+    ROUTE: 'GST',
+    COLOR_KEY: 'GST_CALCULATOR',
   },
   DISCOUNT: {
     NAME: 'Discount Calculator',
     DESCRIPTION: 'Calculate discounts and savings',
     ICON: 'local-offer',
+    ROUTE: 'Discount',
+    COLOR_KEY: 'DISCOUNT_CALCULATOR',
   },
   CURRENCY: {
     NAME: 'Currency Converter',
     DESCRIPTION: 'Real-time exchange rates',
     ICON: 'currency-exchange',
+    ROUTE: 'CurrencyConverter',
+    COLOR_KEY: 'CURRENCY_CALCULATOR',
   },
   UNIT_CONVERTER: {
     NAME: 'Unit Converter',
     DESCRIPTION: 'Convert between different units',
     ICON: 'swap-horiz',
+    ROUTE: 'UnitConverter',
+    COLOR_KEY: 'UNIT_CONVERTER',
   },
   MATH_UTILS: {
     NAME: 'Math Utilities',
     DESCRIPTION: 'Advanced mathematical calculations',
     ICON: 'functions',
+    ROUTE: 'MathUtils',
+    COLOR_KEY: 'MATH_UTILS',
   },
 } as const;
 
