@@ -14,6 +14,7 @@ import AgeScreen from '../screens/AgeScreen';
 import GstScreen from '../screens/GstScreen';
 import DiscountScreen from '../screens/DiscountScreen';
 import CurrencyConverterScreen from '../screens/CurrencyConverterScreen';
+import UnitConverterScreen from '../screens/UnitConverterScreen';
 // Import types
 import { RootStackParamList } from '../types/navigation';
 
@@ -101,6 +102,13 @@ const AppNavigator: React.FC = () => {
           component={CurrencyConverterScreen}
           options={{
             title: 'Currency Converter',
+          }}
+        />
+        <Stack.Screen
+          name="UnitConverter"
+          component={UnitConverterScreen}
+          options={{
+            title: 'Unit Converter',
           }}
         />
       </Stack.Navigator>

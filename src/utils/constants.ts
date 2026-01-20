@@ -13,6 +13,7 @@ export const NAVIGATION = {
   GST_CALCULATOR: 'GST',
   DISCOUNT_CALCULATOR: 'Discount',
   CURRENCY_CONVERTER: 'CurrencyConverter',
+  UNIT_CONVERTER: 'UnitConverter',
 } as const;
 
 // Home Screen
@@ -62,6 +63,11 @@ export const CALCULATORS = {
     NAME: 'Currency Converter',
     DESCRIPTION: 'Real-time exchange rates',
     ICON: 'currency-exchange',
+  },
+  UNIT_CONVERTER: {
+    NAME: 'Unit Converter',
+    DESCRIPTION: 'Convert between different units',
+    ICON: 'straighten',
   },
 } as const;
 
@@ -184,6 +190,72 @@ export const CURRENCY_CONVERTER = {
   EXCHANGE_RATE: 'Exchange Rate',
   LOADING_RATES: 'Loading exchange rates...',
   ERROR_FETCHING: 'Error fetching exchange rates',
+} as const;
+
+// Unit Converter
+export const UNIT_CONVERTER = {
+  TITLE: 'Unit Converter',
+  FROM_LABEL: 'From',
+  TO_LABEL: 'To',
+  VALUE_PLACEHOLDER: 'Enter value',
+  CONVERT: 'Convert',
+  RESULT: 'Result',
+  CATEGORIES: {
+    LENGTH: 'Length',
+    WEIGHT: 'Weight',
+    TEMPERATURE: 'Temperature',
+    VOLUME: 'Volume',
+    AREA: 'Area',
+    SPEED: 'Speed',
+  },
+  UNITS: {
+    LENGTH: {
+      METER: 'Meter',
+      KILOMETER: 'Kilometer',
+      CENTIMETER: 'Centimeter',
+      MILLIMETER: 'Millimeter',
+      MILE: 'Mile',
+      YARD: 'Yard',
+      FOOT: 'Foot',
+      INCH: 'Inch',
+    },
+    WEIGHT: {
+      KILOGRAM: 'Kilogram',
+      GRAM: 'Gram',
+      MILLIGRAM: 'Milligram',
+      POUND: 'Pound',
+      OUNCE: 'Ounce',
+      TON: 'Ton',
+    },
+    TEMPERATURE: {
+      CELSIUS: 'Celsius',
+      FAHRENHEIT: 'Fahrenheit',
+      KELVIN: 'Kelvin',
+    },
+    VOLUME: {
+      LITER: 'Liter',
+      MILLILITER: 'Milliliter',
+      GALLON: 'Gallon',
+      QUART: 'Quart',
+      PINT: 'Pint',
+      CUP: 'Cup',
+      FLUID_OUNCE: 'Fluid Ounce',
+    },
+    AREA: {
+      SQUARE_METER: 'Square Meter',
+      SQUARE_KILOMETER: 'Square Kilometer',
+      SQUARE_CENTIMETER: 'Square Centimeter',
+      SQUARE_MILE: 'Square Mile',
+      ACRE: 'Acre',
+      HECTARE: 'Hectare',
+    },
+    SPEED: {
+      METER_PER_SECOND: 'Meter/Second',
+      KILOMETER_PER_HOUR: 'Kilometer/Hour',
+      MILE_PER_HOUR: 'Mile/Hour',
+      KNOT: 'Knot',
+    },
+  },
 } as const;
 
 // API Configuration

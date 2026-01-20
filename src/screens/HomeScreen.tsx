@@ -88,6 +88,14 @@ const HomeScreen: React.FC = () => {
       onPress: () => navigation.navigate('CurrencyConverter'),
       color: colors.CURRENCY_CALCULATOR,
     },
+    {
+      key: 'unit-converter',
+      title: CALCULATORS.UNIT_CONVERTER.NAME,
+      description: CALCULATORS.UNIT_CONVERTER.DESCRIPTION,
+      iconName: CALCULATORS.UNIT_CONVERTER.ICON,
+      onPress: () => navigation.navigate('UnitConverter'),
+      color: colors.UNIT_CONVERTER,
+    },
   ];
 
   return (

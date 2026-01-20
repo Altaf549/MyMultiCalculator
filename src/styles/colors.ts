@@ -24,6 +24,7 @@ export const COLORS = {
   TEXT_SECONDARY: '#8E8E93',
   TEXT_TERTIARY: '#C7C7CC',
   TEXT_WHITE: '#FFFFFF',
+  TEXT_WHITE_OP_8: '#ffffff89',
   TEXT_DISABLED: '#D1D1D6',
   
   // Border Colors
@@ -82,6 +83,7 @@ export const COLORS = {
   DISCOUNT_CALCULATOR: '#3F51B5',
   CURRENCY_CALCULATOR: '#F44336',
   BMI_CALCULATOR: '#440606ff',
+  UNIT_CONVERTER: '#795548',
   
 } as const;
 
@@ -111,4 +113,5 @@ export const DARK_COLORS = {
   DISCOUNT_CALCULATOR: '#5C6BC0' as const,    // Brighter indigo
   CURRENCY_CALCULATOR: '#EF5350' as const,    // Brighter red
   BMI_CALCULATOR: '#FF7043' as const,         // Deep orange (unique)
+  UNIT_CONVERTER: '#8D6E63' as const,         // Brighter brown
 } as const;

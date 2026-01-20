@@ -10,6 +10,7 @@ export type RootStackParamList = {
   GST: undefined;
   Discount: undefined;
   CurrencyConverter: undefined;
+  UnitConverter: undefined;
 };
 
 export type NavigationProp<T extends keyof RootStackParamList> = {
