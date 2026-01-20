@@ -165,22 +165,23 @@ const ScientificCalculatorScreen: React.FC = () => {
           <Button title="log" onPress={() => handleScientificFunction('log')} color={colors.SECONDARY} textColor={colors.TEXT_WHITE} size="small" />
           <Button title="ln" onPress={() => handleScientificFunction('ln')} color={colors.SECONDARY} textColor={colors.TEXT_WHITE} size="small" />
         </View>
-        
+
         {/* More Scientific Functions */}
         <View style={styles.row}>
           <Button title="√" onPress={() => handleScientificFunction('sqrt')} color={colors.SECONDARY} textColor={colors.TEXT_WHITE} size="small" />
           <Button title="x^y" onPress={() => handleScientificFunction('x^y')} color={colors.SECONDARY} textColor={colors.TEXT_WHITE} size="small" />
           <Button title="π" onPress={() => handleScientificFunction('π')} color={colors.SECONDARY} textColor={colors.TEXT_WHITE} size="small" />
           <Button title="e" onPress={() => handleScientificFunction('e')} color={colors.SECONDARY} textColor={colors.TEXT_WHITE} size="small" />
-          <Button title="(" onPress={() => handleNumber('(')} size="small" />
+          <Button title="(" onPress={() => handleNumber('(')} />
         </View>
 
         {/* Standard Calculator Operations */}
         <View style={styles.row}>
-          <Button title="AC" onPress={handleClear} color={colors.CALCULATOR_CLEAR} textColor={colors.TEXT_WHITE} />
+          <Button title=")" onPress={() => handleNumber(')')} size="small" />
           <Button title="+/-" onPress={() => setDisplay(String(parseFloat(display) * -1))} />
           <Button title="%" onPress={() => setDisplay(String(parseFloat(display) / 100))} />
           <Button title="÷" onPress={() => handleOperation('÷')} color={colors.CALCULATOR_OPERATOR} textColor={colors.TEXT_WHITE} />
+          <Button title="AC" onPress={handleClear} color={colors.CALCULATOR_CLEAR} textColor={colors.TEXT_WHITE} />
         </View>
         <View style={styles.row}>
           <Button title="7" onPress={() => handleNumber('7')} />
