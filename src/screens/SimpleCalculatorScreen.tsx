@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -19,6 +19,21 @@ const SimpleCalculatorScreen: React.FC = () => {
   const [previousValue, setPreviousValue] = useState<number | null>(null);
   const [operation, setOperation] = useState<string | null>(null);
   const [waitingForNewValue, setWaitingForNewValue] = useState(false);
+  const [calculationHistory, setCalculationHistory] = useState<string>('');
+  const [resultHistory, setResultHistory] = useState<string>('');
+
+  // Update calculation history in real-time based on current state
+  useEffect(() => {
+    if (previousValue !== null && operation && !waitingForNewValue) {
+      const history = `${previousValue} ${operation} ${display}`;
+      setCalculationHistory(history);
+    } else if (previousValue !== null && operation && waitingForNewValue) {
+      const history = `${previousValue} ${operation}`;
+      setCalculationHistory(history);
+    } else {
+      setCalculationHistory('');
+    }
+  }, [previousValue, operation, display, waitingForNewValue]);
 
   const handleNumber = (num: string) => {
     if (waitingForNewValue) {
@@ -67,6 +82,10 @@ const SimpleCalculatorScreen: React.FC = () => {
     if (previousValue !== null && operation) {
       const currentValue = previousValue;
       const newValue = calculate(currentValue, inputValue, operation);
+      
+      // Create result history string with result
+      const result = `${currentValue} ${operation} ${inputValue} = ${newValue}`;
+      setResultHistory(result);
 
       setDisplay(String(newValue));
       setPreviousValue(null);
@@ -80,6 +99,8 @@ const SimpleCalculatorScreen: React.FC = () => {
     setPreviousValue(null);
     setOperation(null);
     setWaitingForNewValue(false);
+    setCalculationHistory('');
+    setResultHistory('');
   };
 
   const handleDecimal = () => {
@@ -114,6 +135,16 @@ const SimpleCalculatorScreen: React.FC = () => {
   return (
     <SafeAreaView edges={['bottom', 'left', 'right']} style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <View style={[styles.displayContainer, { backgroundColor: colors.BACKGROUND_DARK }]}>
+        {resultHistory ? (
+          <Text style={[styles.resultHistory, { color: colors.TEXT_SECONDARY }]}>
+            {resultHistory}
+          </Text>
+        ) : null}
+        {calculationHistory ? (
+          <Text style={[styles.calculationHistory, { color: colors.TEXT_SECONDARY }]}>
+            {calculationHistory}
+          </Text>
+        ) : null}
         <Text style={[styles.display, { color: colors.TEXT_PRIMARY }]}>{display}</Text>
       </View>
       <ScrollView contentContainerStyle={styles.buttonsContainer}>
@@ -156,9 +187,20 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   displayContainer: {
-    flex: 1,
+    flex: 1.2,
     justifyContent: 'flex-end',
     padding: COMPONENT_SPACING.CALCULATOR_DISPLAY_PADDING,
+  },
+  resultHistory: {
+    ...TEXT_STYLES.CALCULATOR_HISTORY,
+    textAlign: 'right',
+    marginBottom: SPACING.XS,
+    opacity: 0.7,
+  },
+  calculationHistory: {
+    ...TEXT_STYLES.CALCULATOR_HISTORY,
+    textAlign: 'right',
+    marginBottom: SPACING.XS,
   },
   display: {
     ...TEXT_STYLES.CALCULATOR_DISPLAY,

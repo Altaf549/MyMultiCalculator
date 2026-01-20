@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -19,6 +19,21 @@ const ScientificCalculatorScreen: React.FC = () => {
   const [previousValue, setPreviousValue] = useState<number | null>(null);
   const [operation, setOperation] = useState<string | null>(null);
   const [waitingForNewValue, setWaitingForNewValue] = useState(false);
+  const [calculationHistory, setCalculationHistory] = useState<string>('');
+  const [resultHistory, setResultHistory] = useState<string>('');
+
+  // Update calculation history in real-time based on current state
+  useEffect(() => {
+    if (previousValue !== null && operation && !waitingForNewValue) {
+      const history = `${previousValue} ${operation} ${display}`;
+      setCalculationHistory(history);
+    } else if (previousValue !== null && operation && waitingForNewValue) {
+      const history = `${previousValue} ${operation}`;
+      setCalculationHistory(history);
+    } else {
+      setCalculationHistory('');
+    }
+  }, [previousValue, operation, display, waitingForNewValue]);
 
   const handleNumber = (num: string) => {
     if (waitingForNewValue) {
@@ -64,25 +79,32 @@ const ScientificCalculatorScreen: React.FC = () => {
   const handleScientificFunction = (func: string) => {
     const value = parseFloat(display);
     let result = 0;
+    let operationSymbol = '';
 
     switch (func) {
       case 'sin':
         result = Math.sin(value * Math.PI / 180);
+        operationSymbol = 'sin';
         break;
       case 'cos':
         result = Math.cos(value * Math.PI / 180);
+        operationSymbol = 'cos';
         break;
       case 'tan':
         result = Math.tan(value * Math.PI / 180);
+        operationSymbol = 'tan';
         break;
       case 'log':
         result = Math.log10(value);
+        operationSymbol = 'log';
         break;
       case 'ln':
         result = Math.log(value);
+        operationSymbol = 'ln';
         break;
       case 'sqrt':
         result = Math.sqrt(value);
+        operationSymbol = '√';
         break;
       case 'x^y':
         setOperation('x^y');
@@ -96,6 +118,11 @@ const ScientificCalculatorScreen: React.FC = () => {
         setDisplay(String(Math.E));
         return;
     }
+
+    // Create result history for scientific functions
+    const history = `${operationSymbol}(${value}) = ${result}`;
+    setResultHistory(history);
+    setCalculationHistory('');
 
     setDisplay(String(result));
     setWaitingForNewValue(true);
@@ -113,6 +140,10 @@ const ScientificCalculatorScreen: React.FC = () => {
       } else {
         newValue = calculate(currentValue, inputValue, operation);
       }
+      
+      // Create result history string with result
+      const result = `${currentValue} ${operation} ${inputValue} = ${newValue}`;
+      setResultHistory(result);
 
       setDisplay(String(newValue));
       setPreviousValue(null);
@@ -126,6 +157,8 @@ const ScientificCalculatorScreen: React.FC = () => {
     setPreviousValue(null);
     setOperation(null);
     setWaitingForNewValue(false);
+    setCalculationHistory('');
+    setResultHistory('');
   };
 
   const handleDecimal = () => {
@@ -154,6 +187,16 @@ const ScientificCalculatorScreen: React.FC = () => {
   return (
     <SafeAreaView edges={['bottom', 'left', 'right']} style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <View style={[styles.displayContainer, { backgroundColor: colors.BACKGROUND_DARK }]}>
+        {resultHistory ? (
+          <Text style={[styles.resultHistory, { color: colors.TEXT_SECONDARY }]}>
+            {resultHistory}
+          </Text>
+        ) : null}
+        {calculationHistory ? (
+          <Text style={[styles.calculationHistory, { color: colors.TEXT_SECONDARY }]}>
+            {calculationHistory}
+          </Text>
+        ) : null}
         <Text style={[styles.display, { color: colors.TEXT_PRIMARY }]}>{display}</Text>
       </View>
       <ScrollView contentContainerStyle={styles.buttonsContainer}>
@@ -216,13 +259,24 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   displayContainer: {
-    flex: 1,
+    flex: 2,
     justifyContent: 'flex-end',
     padding: COMPONENT_SPACING.CALCULATOR_DISPLAY_PADDING,
   },
   display: {
     ...TEXT_STYLES.CALCULATOR_DISPLAY,
     textAlign: 'right',
+  },
+  resultHistory: {
+    ...TEXT_STYLES.CALCULATOR_HISTORY,
+    textAlign: 'right',
+    marginBottom: SPACING.XS,
+    opacity: 0.7,
+  },
+  calculationHistory: {
+    ...TEXT_STYLES.CALCULATOR_HISTORY,
+    textAlign: 'right',
+    marginBottom: SPACING.XS,
   },
   buttonsContainer: {
     padding: SPACING.SM,

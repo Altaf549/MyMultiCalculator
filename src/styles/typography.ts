@@ -189,6 +189,12 @@ export const TEXT_STYLES = {
     lineHeight: FONT_SIZES.XXXL * LINE_HEIGHTS.TIGHT,
     fontFamily: FONT_FAMILY.MONOSPACED,
   },
+  CALCULATOR_HISTORY: {
+    fontSize: FONT_SIZES.LG,
+    fontWeight: FONT_WEIGHTS.NORMAL,
+    lineHeight: FONT_SIZES.LG * LINE_HEIGHTS.NORMAL,
+    fontFamily: FONT_FAMILY.MONOSPACED,
+  },
   CALCULATOR_BUTTON: {
     fontSize: FONT_SIZES.XL,
     fontWeight: FONT_WEIGHTS.SEMIBOLD,
