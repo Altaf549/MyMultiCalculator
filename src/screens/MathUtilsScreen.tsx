@@ -16,23 +16,11 @@ import AppButton from '../components/AppButton';
 import AppInput from '../components/AppInput';
 import { Dropdown } from 'react-native-element-dropdown';
 import { scale } from '../utils/scaling';
-
-const OPERATIONS = {
-    SQUARE_ROOT: 'Square Root',
-    POWER: 'Power',
-    FACTORIAL: 'Factorial',
-    PRIME_CHECK: 'Prime Check',
-    LCM: 'LCM',
-    GCD: 'GCD',
-    BINARY_OPS: 'Binary Operations',
-    BASE_CONVERTER: 'Base Converter'
-} as const;
-
-type MathOperation = keyof typeof OPERATIONS;
+import { MATH_OPERATIONS, BINARY_OPERATIONS, BASE_CONVERSION_OPTIONS } from '../mockData/MathOperations';
 
 const MathUtilsScreen: React.FC = () => {
     const { colors } = useTheme() as { colors: ThemeColors };
-    const [selectedOperation, setSelectedOperation] = useState<MathOperation>('SQUARE_ROOT');
+    const [selectedOperation, setSelectedOperation] = useState<keyof typeof MATH_OPERATIONS>('SQUARE_ROOT');
     const [input1, setInput1] = useState('');
     const [input2, setInput2] = useState('');
     const [result, setResult] = useState('');
@@ -40,27 +28,38 @@ const MathUtilsScreen: React.FC = () => {
     const [fromBase, setFromBase] = useState(10);
     const [toBase, setToBase] = useState(2);
 
-    const operationOptions = Object.entries(OPERATIONS).map(([key, value]) => ({
+    const operationOptions = Object.entries(MATH_OPERATIONS).map(([key, value]) => ({
         label: value,
         value: key,
     }));
 
-    const binaryOps = [
-        { label: 'AND', value: 'AND' },
-        { label: 'OR', value: 'OR' },
-        { label: 'XOR', value: 'XOR' },
-        { label: 'NOT', value: 'NOT' },
-    ];
-
-    const baseOptions = [
-        { label: 'Binary (2)', value: 2 },
-        { label: 'Octal (8)', value: 8 },
-        { label: 'Decimal (10)', value: 10 },
-        { label: 'Hexadecimal (16)', value: 16 },
-    ];
+    const isSubmitDisabled = (): boolean => {
+        if (!input1.trim()) return true;
+        
+        switch (selectedOperation) {
+            case 'SQUARE_ROOT':
+            case 'FACTORIAL':
+            case 'PRIME_CHECK':
+                return false;
+            
+            case 'POWER':
+            case 'LCM':
+            case 'GCD':
+                return !input2.trim();
+            
+            case 'BINARY_OPS':
+                return binaryOp !== 'NOT' ? !input2.trim() : false;
+            
+            case 'BASE_CONVERTER':
+                return false;
+            
+            default:
+                return true;
+        }
+    };
 
     const calculate = () => {
-        if (!input1) {
+        if (!input1.trim()) {
             setResult('Enter a number');
             return;
         }
@@ -97,17 +96,17 @@ const MathUtilsScreen: React.FC = () => {
                     break;
 
                 case 'LCM':
-                    if (!input2) throw new Error('Second number is required for LCM');
+                    if (!input2.trim()) throw new Error('Second number is required for LCM');
                     calculatedResult = lcm(num1, num2).toString();
                     break;
 
                 case 'GCD':
-                    if (!input2) throw new Error('Second number is required for GCD');
+                    if (!input2.trim()) throw new Error('Second number is required for GCD');
                     calculatedResult = gcd(num1, num2).toString();
                     break;
 
                 case 'BINARY_OPS':
-                    if (!input2 && binaryOp !== 'NOT') throw new Error('Second number is required for this operation');
+                    if (binaryOp !== 'NOT' && !input2.trim()) throw new Error('Second number is required for this operation');
                     calculatedResult = binaryOperation(num1, input2 ? num2 : 0, binaryOp);
                     break;
 
@@ -229,7 +228,7 @@ const MathUtilsScreen: React.FC = () => {
                             </Text>
                             <Dropdown
                                 style={[styles.dropdown, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]}
-                                data={binaryOps}
+                                data={BINARY_OPERATIONS}
                                 labelField="label"
                                 valueField="value"
                                 value={binaryOp}
@@ -261,13 +260,13 @@ const MathUtilsScreen: React.FC = () => {
                             onChangeText={setInput1}
                             placeholder="Enter number"
                         />
-                        <View style={[styles.dropdownContainer, { marginTop: SPACING.XXS }]}>
+                        <View style={styles.dropdownContainer}>
                             <Text style={[styles.label, { color: colors.TEXT_PRIMARY }]}>
                                 From Base
                             </Text>
                             <Dropdown
-                                style={[styles.dropdown, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER, marginTop: SPACING.XXS }]}
-                                data={baseOptions}
+                                style={[styles.dropdown, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]}
+                                data={BASE_CONVERSION_OPTIONS}
                                 labelField="label"
                                 valueField="value"
                                 value={fromBase}
@@ -278,13 +277,13 @@ const MathUtilsScreen: React.FC = () => {
                                 placeholderStyle={{ color: colors.TEXT_SECONDARY }}
                             />
                         </View>
-                        <View style={[styles.dropdownContainer, { marginTop: SPACING.MD }]}>
+                        <View style={ styles.dropdownContainer }>
                             <Text style={[styles.label, { color: colors.TEXT_PRIMARY }]}>
                                 To Base
                             </Text>
                             <Dropdown
-                                style={[styles.dropdown, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER, marginTop: SPACING.XXS }]}
-                                data={baseOptions}
+                                style={[styles.dropdown, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER}]}
+                                data={BASE_CONVERSION_OPTIONS}
                                 labelField="label"
                                 valueField="value"
                                 value={toBase}
@@ -338,6 +337,7 @@ const MathUtilsScreen: React.FC = () => {
                             title="Calculate"
                             onPress={calculate}
                             style={styles.calculateButton}
+                            disabled={isSubmitDisabled()}
                         />
                         <AppButton
                             title="Reset"
@@ -346,14 +346,16 @@ const MathUtilsScreen: React.FC = () => {
                         />
                     </View>
 
-                    <View style={[styles.resultContainer, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]}>
-                        <Text style={[styles.resultLabel, { color: colors.TEXT_PRIMARY }]}>
-                            Result:
-                        </Text>
-                        <Text style={[styles.result, { color: colors.PRIMARY }]}>
-                            {result || '-'}
-                        </Text>
-                    </View>
+                    {result && (
+                        <View style={[styles.resultContainer, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]}>
+                            <Text style={[styles.resultLabel, { color: colors.TEXT_PRIMARY }]}>
+                                Result:
+                            </Text>
+                            <Text style={[styles.result, { color: colors.PRIMARY }]}>
+                                {result}
+                            </Text>
+                        </View>
+                    )}
                 </View>
             </ScrollView>
         </SafeAreaView>
@@ -377,23 +379,24 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     dropdownContainer: {
-        marginBottom: 0,
+        marginBottom: SPACING.SM,
     },
     label: {
         ...TEXT_STYLES.LABEL,
-        marginBottom: SPACING.XXS,
+        marginBottom: SPACING.XS,
     },
     dropdown: {
         height: scale(50),
         borderWidth: 1,
         borderRadius: 8,
-        paddingHorizontal: SPACING.XS,
+        paddingHorizontal: SPACING.XXS,
     },
     inputsContainer: {
-        marginBottom: SPACING.XXS,
+        marginBottom: 0,
     },
     resultContainer: {
-        padding: SPACING.LG,
+        paddingTop: SPACING.SM,
+        paddingBottom: SPACING.XS,
         borderRadius: 8,
         borderWidth: 1,
         alignItems: 'center',
@@ -408,7 +411,7 @@ const styles = StyleSheet.create({
     buttonSection: {
         marginTop: SPACING.XXS,
         gap: SPACING.XS,
-        marginBottom: SPACING.LG,
+        marginBottom: SPACING.SM,
     },
     calculateButton: {
         marginBottom: 0,
