@@ -8,7 +8,7 @@ import {
 import { scale, moderateScale } from '../utils/scaling';
 import { useTheme } from '../context/ThemeContext';
 import { TEXT_STYLES, FONT_WEIGHTS } from '../styles/typography';
-import { COMPONENT_SPACING } from '../styles/spacing';
+import { COMPONENT_SPACING, SPACING } from '../styles/spacing';
 import { BMI_CALCULATOR } from '../utils/constants';
 
 interface HeightUnitSelectorProps {
@@ -70,6 +70,8 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     borderRadius: COMPONENT_SPACING.INPUT_BORDER_RADIUS,
     borderWidth: 1,
+    marginTop: SPACING.SM,
+    marginBottom: SPACING.XS,
   },
   unitButton: {
     flex: 1,

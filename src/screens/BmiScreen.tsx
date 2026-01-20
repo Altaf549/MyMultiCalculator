@@ -162,7 +162,7 @@ const BmiScreen: React.FC = () => {
         </View>
 
         {bmi !== null && (
-          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER}]}>
             <View style={styles.resultHeader}>
               <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
               <Text style={[styles.bmiValue, { color: colors.PRIMARY }]}>{bmi}</Text>
@@ -215,21 +215,20 @@ const styles = {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
   },
   inputSection: {
-    marginBottom: SPACING.XS,
+    marginBottom: SPACING.XXS,
   },
   buttonSection: {
-    marginBottom: SPACING.XS,
+    marginBottom: SPACING.MD,
   },
   resultSection: {
-    padding: SPACING.XS,
+    padding: SPACING.SM,
+    borderWidth: 1,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
-    marginBottom: SPACING.XS,
   },
   resultHeader: {
     flexDirection: 'row' as const,
     justifyContent: 'space-between' as const,
     alignItems: 'center' as const,
-    marginBottom: SPACING.XS,
   },
   bmiContainer: {
     alignItems: 'flex-start' as const,

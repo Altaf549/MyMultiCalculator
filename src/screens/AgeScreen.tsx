@@ -76,10 +76,12 @@ const AgeScreen: React.FC = () => {
     <SafeAreaView  edges={['bottom', 'left', 'right']} style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <TouchableOpacity style={[styles.datePickerButton, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]} onPress={showDatePicker}>
-          <Text style={[styles.datePickerLabel, { color: colors.TEXT_SECONDARY }]}>{AGE_CALCULATOR.BIRTH_DATE_LABEL}</Text>
-          <Text style={[styles.selectedDate, { color: colors.PRIMARY }]}>
-            {birthDate.toLocaleDateString()}
-          </Text>
+          <View style={styles.datePickerContent}>
+            <Text style={[styles.datePickerLabel, { color: colors.TEXT_SECONDARY }]}>{AGE_CALCULATOR.BIRTH_DATE_LABEL}</Text>
+            <Text style={[styles.selectedDate, { color: colors.PRIMARY }]}>
+              {birthDate.toLocaleDateString()}
+            </Text>
+          </View>
         </TouchableOpacity>
 
         {showPicker && (
@@ -124,18 +126,30 @@ const AgeScreen: React.FC = () => {
               </View>
             </View>
             
-            <Text style={[styles.totalDays, { color: colors.TEXT_PRIMARY }]}>
-              {AGE_CALCULATOR.TOTAL_DAYS}: {age.totalDays}
-            </Text>
-            <Text style={[styles.totalDays, { color: colors.TEXT_PRIMARY }]}>
-              {AGE_CALCULATOR.TOTAL_HOURS}: {age.totalHours.toLocaleString()}
-            </Text>
-            <Text style={[styles.totalDays, { color: colors.TEXT_PRIMARY }]}>
-              {AGE_CALCULATOR.TOTAL_MINUTES}: {age.totalMinutes.toLocaleString()}
-            </Text>
-            <Text style={[styles.totalDays, { color: colors.TEXT_PRIMARY }]}>
-              {AGE_CALCULATOR.TOTAL_SECONDS}: {age.totalSeconds.toLocaleString()}
-            </Text>
+            <View style={styles.resultRow}>
+              <View style={styles.resultItem}>
+                <Text style={[styles.totalDaysLabel, { color: colors.TEXT_PRIMARY }]}>{AGE_CALCULATOR.TOTAL_DAYS}</Text>
+                <Text style={[styles.totalDaysValue, { color: colors.TEXT_PRIMARY }]}>{age.totalDays}</Text>
+              </View>
+            </View>
+            <View style={styles.resultRow}>
+              <View style={styles.resultItem}>
+                <Text style={[styles.totalDaysLabel, { color: colors.TEXT_PRIMARY }]}>{AGE_CALCULATOR.TOTAL_HOURS}</Text>
+                <Text style={[styles.totalDaysValue, { color: colors.TEXT_PRIMARY }]}>{age.totalHours.toLocaleString()}</Text>
+              </View>
+            </View>
+            <View style={styles.resultRow}>
+              <View style={styles.resultItem}>
+                <Text style={[styles.totalDaysLabel, { color: colors.TEXT_PRIMARY }]}>{AGE_CALCULATOR.TOTAL_MINUTES}</Text>
+                <Text style={[styles.totalDaysValue, { color: colors.TEXT_PRIMARY }]}>{age.totalMinutes.toLocaleString()}</Text>
+              </View>
+            </View>
+            <View style={styles.resultRow}>
+              <View style={styles.resultItem}>
+                <Text style={[styles.totalDaysLabel, { color: colors.TEXT_PRIMARY }]}>{AGE_CALCULATOR.TOTAL_SECONDS}</Text>
+                <Text style={[styles.totalDaysValue, { color: colors.TEXT_PRIMARY }]}>{age.totalSeconds.toLocaleString()}</Text>
+              </View>
+            </View>
           </View>
         )}
       </ScrollView>
@@ -151,14 +165,18 @@ const styles = {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
   },
   datePickerButton: {
-    padding: SPACING.LG,
+    padding: SPACING.SM,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
-    marginBottom: SPACING.XS,
+    marginBottom: SPACING.SM,
     borderWidth: 1,
+  },
+  datePickerContent: {
+    flexDirection: 'row' as const,
+    justifyContent: 'space-between' as const,
+    alignItems: 'center' as const,
   },
   datePickerLabel: {
     ...TEXT_STYLES.LABEL,
-    marginBottom: SPACING.SM,
   },
   selectedDate: {
     ...TEXT_STYLES.H5,
@@ -176,20 +194,19 @@ const styles = {
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.SM,
   },
   ageRow: {
     flexDirection: 'row' as const,
     justifyContent: 'space-around' as const,
     width: '100%' as const,
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.SM,
   },
   ageItem: {
     alignItems: 'center' as const,
   },
   ageValue: {
     ...TEXT_STYLES.RESULT,
-    marginBottom: SPACING.XS,
   },
   ageLabel: {
     ...TEXT_STYLES.BODY_SMALL,
@@ -197,6 +214,23 @@ const styles = {
   totalDays: {
     ...TEXT_STYLES.BODY,
     fontWeight: FONT_WEIGHTS.MEDIUM,
+  },
+  resultRow: {
+    width: '100%' as const,
+    marginBottom: SPACING.XXS,
+  },
+  resultItem: {
+    flexDirection: 'row' as const,
+    justifyContent: 'space-between' as const,
+    alignItems: 'center' as const,
+  },
+  totalDaysLabel: {
+    ...TEXT_STYLES.BODY,
+    fontWeight: FONT_WEIGHTS.MEDIUM,
+  },
+  totalDaysValue: {
+    ...TEXT_STYLES.BODY,
+    fontWeight: FONT_WEIGHTS.SEMIBOLD,
   },
   errorText: {
     ...TEXT_STYLES.BODY,
