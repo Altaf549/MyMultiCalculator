@@ -5,7 +5,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
-import { Picker } from '@react-native-picker/picker';
+import { Dropdown } from 'react-native-element-dropdown';
 import axios from 'axios';
 import { scale } from '../utils/scaling';
 import { COLORS } from '../styles/colors';
@@ -15,6 +15,7 @@ import { CURRENCY_CONVERTER, COMMON, API } from '../utils/constants';
 import AppInput from '../components/AppInput';
 import AppButton from '../components/AppButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { currencies } from '../mockData/CourencyData';
 
 interface ExchangeRate {
   [key: string]: number;
@@ -28,10 +29,6 @@ const CurrencyConverterScreen: React.FC = () => {
   const [convertedAmount, setConvertedAmount] = useState<number | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-
-  const currencies = [
-    'USD',  'AED', 'AFN', 'ALL', 'AMD', 'ANG', 'AOA', 'ARS', 'AUD', 'AUD', 'AWG', 'AZN',  'BAM', 'BBD', 'BDT', 'BGN', 'BHD', 'BIF', 'BMD', 'BND', 'BOB', 'BRL', 'BSD', 'BTN', 'BWP', 'BYN', 'BZD', 'BSD', 'BTN', 'BWP', 'BYN', 'BZD', 'CAD', 'CDF', 'CHF', 'CLF', 'CLP', 'CNH', 'CNY', 'COP', 'CRC', 'CUP', 'CVE', 'CZK', 'DJF', 'DKK', 'DOP', 'DZD', 'EGP', 'ERN', 'ETB', 'EUR', 'FJD', 'FKP', 'FOK', 'GBP', 'GEL', 'GGP', 'GHS', 'GIP', 'GMD', 'GNF', 'GTQ', 'GYD', 'HKD', 'HNL', 'HRK', 'HTG', 'HUF', 'IDR', 'ILS', 'IMP', 'INR', 'IQD', 'IRR', 'ISK', 'JEP', 'JMD', 'JOD', 'JPY', 'KES', 'KGS', 'KHR', 'KID', 'KMF', 'KRW', 'KWD', 'KYD', 'KZT', 'LAK', 'LBP', 'LKR', 'LRD', 'LSL', 'LYD', 'MAD', 'MDL', 'MGA', 'MKD', 'MMK', 'MNT', 'MOP', 'MRU', 'MUR', 'MVR', 'MWK', 'MXN', 'MYR', 'MZN', 'NAD', 'NGN', 'NIO', 'NOK', 'NPR', 'NZD', 'OMR', 'PAB', 'PEN', 'PGK', 'PHP', 'PKR', 'PLN', 'PYG', 'QAR', 'RON', 'RSD', 'RUB', 'RWF', 'SAR', 'SBD', 'SCR', 'SDG', 'SEK', 'SGD', 'SHP', 'SLE', 'SLL', 'SOS', 'SRD', 'SSP', 'STN', 'SYP', 'SZL', 'THB', 'TJS', 'TMT', 'TND', 'TOP', 'TRY', 'TTD', 'TVD', 'TWD', 'TZS', 'UAH', 'UGX', 'UYU', 'UZS', 'VES', 'VND', 'VUV', 'WST', 'XAF', 'XCD', 'XCG', 'XDR', 'XOF', 'XPF', 'YER', 'ZAR', 'ZMW', 'ZWG', 'ZWL'
-  ];
 
   useEffect(() => {
     fetchExchangeRates();
@@ -97,30 +94,48 @@ const CurrencyConverterScreen: React.FC = () => {
           <View style={styles.currencyRow}>
             <View style={styles.pickerContainer}>
               <Text style={styles.pickerLabel}>{CURRENCY_CONVERTER.FROM_LABEL}</Text>
-              <Picker
-                selectedValue={fromCurrency}
-                onValueChange={setFromCurrency}
-                style={styles.picker}
-                enabled={!loading}
-              >
-                {currencies.map(currency => (
-                  <Picker.Item key={currency} label={currency} value={currency} />
-                ))}
-              </Picker>
+              <Dropdown
+                data={currencies.map(currency => ({ 
+                  label: currency, 
+                  value: currency.split(' ')[0] // Extract currency code
+                }))}
+                labelField="label"
+                valueField="value"
+                value={fromCurrency}
+                onChange={item => setFromCurrency(item.value)}
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                disable={loading}
+                search
+                maxHeight={300}
+                placeholder="Select currency"
+              />
             </View>
 
             <View style={styles.pickerContainer}>
               <Text style={styles.pickerLabel}>{CURRENCY_CONVERTER.TO_LABEL}</Text>
-              <Picker
-                selectedValue={toCurrency}
-                onValueChange={setToCurrency}
-                style={styles.picker}
-                enabled={!loading}
-              >
-                {currencies.map(currency => (
-                  <Picker.Item key={currency} label={currency} value={currency} />
-                ))}
-              </Picker>
+              <Dropdown
+                data={currencies.map(currency => ({ 
+                  label: currency, 
+                  value: currency.split(' ')[0] // Extract currency code
+                }))}
+                labelField="label"
+                valueField="value"
+                value={toCurrency}
+                onChange={item => setToCurrency(item.value)}
+                style={styles.dropdown}
+                placeholderStyle={styles.placeholderStyle}
+                selectedTextStyle={styles.selectedTextStyle}
+                inputSearchStyle={styles.inputSearchStyle}
+                iconStyle={styles.iconStyle}
+                disable={loading}
+                search
+                maxHeight={300}
+                placeholder="Select currency"
+              />
             </View>
           </View>
         </View>
@@ -186,25 +201,43 @@ const styles = {
     marginBottom: SPACING.LG,
   },
   currencyRow: {
-    flexDirection: 'row' as const,
+    flex: 1,
     justifyContent: 'space-between' as const,
     marginBottom: SPACING.MD,
   },
   pickerContainer: {
     flex: 1,
-    marginHorizontal: SPACING.XS,
   },
   pickerLabel: {
     ...TEXT_STYLES.LABEL,
-    color: COLORS.TEXT_SECONDARY,
+    color: COLORS.TEXT_PRIMARY,
     marginBottom: SPACING.SM,
   },
-  picker: {
+  dropdown: {
+    flex: 1,
     backgroundColor: COLORS.CARD_BACKGROUND,
     borderWidth: 1,
     borderColor: COLORS.BORDER,
     borderRadius: COMPONENT_SPACING.INPUT_BORDER_RADIUS,
     height: COMPONENT_SPACING.INPUT_MIN_HEIGHT,
+    paddingHorizontal: SPACING.SM,
+    marginBottom: 20
+  },
+  placeholderStyle: {
+    ...TEXT_STYLES.BODY,
+    color: COLORS.TEXT_SECONDARY,
+  },
+  selectedTextStyle: {
+    ...TEXT_STYLES.BODY,
+    color: COLORS.TEXT_PRIMARY,
+  },
+  inputSearchStyle: {
+    ...TEXT_STYLES.BODY,
+    color: COLORS.TEXT_PRIMARY,
+  },
+  iconStyle: {
+    width: 20,
+    height: 20,
   },
   buttonSection: {
     marginBottom: SPACING.LG,
