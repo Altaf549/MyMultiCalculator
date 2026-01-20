@@ -25,7 +25,7 @@ const EmiScreen: React.FC = () => {
   const calculateEMI = () => {
     const p = parseFloat(principal);
     const r = parseFloat(rate) / 12 / 100; // Monthly rate
-    const n = parseFloat(tenure); // Months
+    const n = parseFloat(tenure) * 12; // Convert years to months
 
     if (p > 0 && r > 0 && n > 0) {
       const emiValue = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
@@ -91,17 +91,26 @@ const EmiScreen: React.FC = () => {
         </View>
 
         {emi !== null && (
-          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
-            <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{EMI_CALCULATOR.MONTHLY_EMI}</Text>
-            <Text style={[styles.resultValue, { color: colors.PRIMARY }]}>₹{emi.toLocaleString()}</Text>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]}>
+            <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
             
-            <View style={styles.row}>
-              <View style={styles.halfWidth}>
-                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{EMI_CALCULATOR.TOTAL_AMOUNT}</Text>
+            <View style={styles.resultRow}>
+              <View style={styles.resultItem}>
+                <Text style={[styles.subLabel, { color: colors.TEXT_PRIMARY }]}>{EMI_CALCULATOR.MONTHLY_EMI}</Text>
+                <Text style={[styles.resultValue, { color: colors.PRIMARY }]}>₹{emi.toLocaleString()}</Text>
+              </View>
+            </View>
+
+            <View style={styles.resultRow}>
+              <View style={styles.resultItem}>
+                <Text style={[styles.subLabel, { color: colors.TEXT_PRIMARY }]}>{EMI_CALCULATOR.TOTAL_AMOUNT}</Text>
                 <Text style={[styles.subValue, { color: colors.TEXT_PRIMARY }]}>₹{totalAmount?.toLocaleString()}</Text>
               </View>
-              <View style={styles.halfWidth}>
-                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{EMI_CALCULATOR.TOTAL_INTEREST}</Text>
+            </View>
+
+            <View style={styles.resultRow}>
+              <View style={styles.resultItem}>
+                <Text style={[styles.subLabel, { color: colors.TEXT_PRIMARY }]}>{EMI_CALCULATOR.TOTAL_INTEREST}</Text>
                 <Text style={[styles.subValue, { color: colors.TEXT_PRIMARY }]}>₹{totalInterest?.toLocaleString()}</Text>
               </View>
             </View>
@@ -120,29 +129,36 @@ const styles = {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
   },
   inputSection: {
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.XXS,
   },
   buttonSection: {
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.SM,
   },
   resultSection: {
-    padding: SPACING.LG,
+    padding: SPACING.SM,
+    paddingBottom: SPACING.XS,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
-    alignItems: 'center' as const,
-    marginBottom: SPACING.LG,
-    shadowColor: '#000000',
-    shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
-    shadowOpacity: 0.1,
-    shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
-    elevation: 3,
+    alignItems: 'stretch' as const,
+    marginBottom: SPACING.XS,
+    borderWidth: 1
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    marginBottom: SPACING.SM,
+    marginBottom: SPACING.XS,
+    textAlign: 'center' as const,
   },
   resultValue: {
     ...TEXT_STYLES.RESULT,
-    marginBottom: SPACING.LG,
+    fontWeight: FONT_WEIGHTS.SEMIBOLD,
+  },
+  resultRow: {
+    width: '100%' as const,
+    marginBottom: SPACING.XXS,
+  },
+  resultItem: {
+    flexDirection: 'row' as const,
+    justifyContent: 'space-between' as const,
+    alignItems: 'center' as const,
   },
   row: {
     flexDirection: 'row' as const,

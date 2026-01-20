@@ -79,33 +79,35 @@ const DiscountScreen: React.FC = () => {
         </View>
 
         {discountAmount !== null && (
-          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]}>
             <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
             
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{DISCOUNT_CALCULATOR.ORIGINAL_PRICE_TEXT}</Text>
-                <Text style={[styles.originalPrice, { color: colors.TEXT_SECONDARY }]}>₹{parseFloat(originalPrice).toFixed(2)}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_PRIMARY }]}>{DISCOUNT_CALCULATOR.ORIGINAL_PRICE_TEXT}</Text>
+                <Text style={[styles.originalPrice, { color: colors.TEXT_PRIMARY }]}>₹{parseFloat(originalPrice).toFixed(2)}</Text>
               </View>
             </View>
 
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{DISCOUNT_CALCULATOR.DISCOUNT_AMOUNT}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_PRIMARY }]}>{DISCOUNT_CALCULATOR.DISCOUNT_AMOUNT}</Text>
                 <Text style={[styles.discountValue, { color: colors.ERROR }]}>-₹{discountAmount?.toFixed(2)}</Text>
               </View>
             </View>
 
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{DISCOUNT_CALCULATOR.FINAL_PRICE}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_PRIMARY }]}>{DISCOUNT_CALCULATOR.FINAL_PRICE}</Text>
                 <Text style={[styles.finalPrice, { color: colors.SUCCESS }]}>₹{finalPrice?.toFixed(2)}</Text>
               </View>
             </View>
 
-            <View style={[styles.savingsSection, { backgroundColor: colors.SUCCESS_LIGHT }]}>
-              <Text style={[styles.savingsLabel, { color: colors.SUCCESS_DARK }]}>{DISCOUNT_CALCULATOR.YOU_SAVED}</Text>
-              <Text style={[styles.savingsValue, { color: colors.SUCCESS_DARK }]}>₹{savedAmount?.toFixed(2)}</Text>
+            <View style={[styles.savingsSection, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.SUCCESS}]}>
+              <View style={[styles.resultItem, { alignItems: 'center' as const }]}>
+                <Text style={[styles.savingsLabel, { color: colors.SUCCESS }]}>{DISCOUNT_CALCULATOR.YOU_SAVED}</Text>
+                <Text style={[styles.savingsValue, { color: colors.SUCCESS }]}>₹{savedAmount?.toFixed(2)}</Text>
+              </View>
             </View>
           </View>
         )}
@@ -122,30 +124,30 @@ const styles = {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
   },
   inputSection: {
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.XXS,
   },
   buttonSection: {
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.SM,
   },
   resultSection: {
-    padding: SPACING.LG,
+    padding: SPACING.SM,
+    paddingBottom: SPACING.XS,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
-    alignItems: 'center' as const,
-    shadowColor: '#000000',
-    shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
-    shadowOpacity: 0.1,
-    shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
-    elevation: 3,
+    alignItems: 'stretch' as const,
+    borderWidth: 1,
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.XS,
+    textAlign: 'center' as const,
   },
   resultRow: {
     width: '100%' as const,
-    marginBottom: SPACING.MD,
+    marginBottom: SPACING.XXS,
   },
   resultItem: {
+    flexDirection: 'row' as const,
+    justifyContent: 'space-between' as const,
     alignItems: 'center' as const,
   },
   subLabel: {
@@ -166,15 +168,16 @@ const styles = {
     fontWeight: FONT_WEIGHTS.BOLD,
   },
   savingsSection: {
-    marginTop: SPACING.MD,
-    padding: SPACING.MD,
+    marginTop: SPACING.XS,
+    padding: SPACING.XS,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     width: '100%' as const,
-    alignItems: 'center' as const,
+    alignItems: 'stretch' as const,
+    justifyContent: 'center' as const,
+    borderWidth: 2 
   },
   savingsLabel: {
     ...TEXT_STYLES.BODY,
-    marginBottom: SPACING.XS,
   },
   savingsValue: {
     ...TEXT_STYLES.H4,

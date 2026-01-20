@@ -23,11 +23,20 @@ const AgeScreen: React.FC = () => {
     months: 0,
     days: 0,
     totalDays: 0,
+    totalHours: 0,
+    totalMinutes: 0,
+    totalSeconds: 0,
   });
 
   const calculateAge = () => {
     const today = new Date();
     const birth = new Date(birthDate);
+    
+    // Check if birth date is in the future
+    if (birth > today) {
+      setAge({ years: -1, months: 0, days: 0, totalDays: 0, totalHours: 0, totalMinutes: 0, totalSeconds: 0 });
+      return;
+    }
     
     let years = today.getFullYear() - birth.getFullYear();
     let months = today.getMonth() - birth.getMonth();
@@ -45,8 +54,11 @@ const AgeScreen: React.FC = () => {
     }
 
     const totalDays = Math.floor((today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24));
+    const totalHours = Math.floor((today.getTime() - birth.getTime()) / (1000 * 60 * 60));
+    const totalMinutes = Math.floor((today.getTime() - birth.getTime()) / (1000 * 60));
+    const totalSeconds = Math.floor((today.getTime() - birth.getTime()) / 1000);
 
-    setAge({ years, months, days, totalDays });
+    setAge({ years, months, days, totalDays, totalHours, totalMinutes, totalSeconds });
   };
 
   const showDatePicker = () => {
@@ -63,7 +75,7 @@ const AgeScreen: React.FC = () => {
   return (
     <SafeAreaView  edges={['bottom', 'left', 'right']} style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <ScrollView contentContainerStyle={styles.content}>
-        <TouchableOpacity style={[styles.datePickerButton, { backgroundColor: colors.CARD_BACKGROUND }]} onPress={showDatePicker}>
+        <TouchableOpacity style={[styles.datePickerButton, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]} onPress={showDatePicker}>
           <Text style={[styles.datePickerLabel, { color: colors.TEXT_SECONDARY }]}>{AGE_CALCULATOR.BIRTH_DATE_LABEL}</Text>
           <Text style={[styles.selectedDate, { color: colors.PRIMARY }]}>
             {birthDate.toLocaleDateString()}
@@ -87,8 +99,14 @@ const AgeScreen: React.FC = () => {
           />
         </View>
 
-        {age.years > 0 && (
+        {age.years === -1 ? (
           <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+            <Text style={[styles.errorText, { color: colors.ERROR }]}>
+              Birth date cannot be in the future
+            </Text>
+          </View>
+        ) : (
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER, borderWidth: 1 }]}>
             <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
             
             <View style={styles.ageRow}>
@@ -109,6 +127,15 @@ const AgeScreen: React.FC = () => {
             <Text style={[styles.totalDays, { color: colors.TEXT_PRIMARY }]}>
               {AGE_CALCULATOR.TOTAL_DAYS}: {age.totalDays}
             </Text>
+            <Text style={[styles.totalDays, { color: colors.TEXT_PRIMARY }]}>
+              {AGE_CALCULATOR.TOTAL_HOURS}: {age.totalHours.toLocaleString()}
+            </Text>
+            <Text style={[styles.totalDays, { color: colors.TEXT_PRIMARY }]}>
+              {AGE_CALCULATOR.TOTAL_MINUTES}: {age.totalMinutes.toLocaleString()}
+            </Text>
+            <Text style={[styles.totalDays, { color: colors.TEXT_PRIMARY }]}>
+              {AGE_CALCULATOR.TOTAL_SECONDS}: {age.totalSeconds.toLocaleString()}
+            </Text>
           </View>
         )}
       </ScrollView>
@@ -126,12 +153,8 @@ const styles = {
   datePickerButton: {
     padding: SPACING.LG,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
-    marginBottom: SPACING.LG,
-    shadowColor: '#000000',
-    shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
-    shadowOpacity: 0.1,
-    shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
-    elevation: 3,
+    marginBottom: SPACING.XS,
+    borderWidth: 1,
   },
   datePickerLabel: {
     ...TEXT_STYLES.LABEL,
@@ -142,17 +165,14 @@ const styles = {
     fontWeight: FONT_WEIGHTS.SEMIBOLD,
   },
   buttonSection: {
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.SM,
   },
   resultSection: {
-    padding: SPACING.LG,
+    padding: SPACING.SM,
+    paddingBottom: SPACING.XS,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     alignItems: 'center' as const,
-    shadowColor: '#000000',
-    shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
-    shadowOpacity: 0.1,
-    shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
-    elevation: 3,
+    borderWidth: 1,
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
@@ -177,6 +197,10 @@ const styles = {
   totalDays: {
     ...TEXT_STYLES.BODY,
     fontWeight: FONT_WEIGHTS.MEDIUM,
+  },
+  errorText: {
+    ...TEXT_STYLES.BODY,
+    textAlign: 'center' as const,
   },
 };
 

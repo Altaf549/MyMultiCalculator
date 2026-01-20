@@ -79,26 +79,26 @@ const GstScreen: React.FC = () => {
         </View>
 
         {gstAmount !== null && (
-          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]}>
             <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
             
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{GST_CALCULATOR.ORIGINAL_AMOUNT}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_PRIMARY }]}>{GST_CALCULATOR.ORIGINAL_AMOUNT}</Text>
                 <Text style={[styles.resultValue, { color: colors.TEXT_PRIMARY }]}>₹{originalAmount?.toFixed(2)}</Text>
               </View>
             </View>
 
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{GST_CALCULATOR.GST_AMOUNT}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_PRIMARY }]}>{GST_CALCULATOR.GST_AMOUNT}</Text>
                 <Text style={[styles.gstValue, { color: colors.WARNING }]}>₹{gstAmount?.toFixed(2)}</Text>
               </View>
             </View>
 
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{GST_CALCULATOR.TOTAL_WITH_GST}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_PRIMARY }]}>{GST_CALCULATOR.TOTAL_WITH_GST}</Text>
                 <Text style={[styles.totalValue, { color: colors.SUCCESS }]}>₹{totalWithGst?.toFixed(2)}</Text>
               </View>
             </View>
@@ -117,30 +117,30 @@ const styles = {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
   },
   inputSection: {
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.XS,
   },
   buttonSection: {
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.SM,
   },
   resultSection: {
-    padding: SPACING.LG,
+    padding: SPACING.SM,
+    paddingBottom: SPACING.XS,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
-    alignItems: 'center' as const,
-    shadowColor: '#000000',
-    shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
-    shadowOpacity: 0.1,
-    shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
-    elevation: 3,
+    alignItems: 'stretch' as const,
+    borderWidth: 1,
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.XS,
+    textAlign: 'center' as const,
   },
   resultRow: {
     width: '100%' as const,
-    marginBottom: SPACING.MD,
+    marginBottom: SPACING.XXS,
   },
   resultItem: {
+    flexDirection: 'row' as const,
+    justifyContent: 'space-between' as const,
     alignItems: 'center' as const,
   },
   subLabel: {

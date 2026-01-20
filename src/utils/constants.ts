@@ -157,10 +157,10 @@ export const EMI_CALCULATOR = {
   TITLE: 'EMI Calculator',
   PRINCIPAL_LABEL: 'Principal Amount',
   RATE_LABEL: 'Interest Rate (%)',
-  TENURE_LABEL: 'Loan Tenure (months)',
+  TENURE_LABEL: 'Loan Tenure (years)',
   PRINCIPAL_PLACEHOLDER: 'Enter principal amount',
   RATE_PLACEHOLDER: 'Enter interest rate',
-  TENURE_PLACEHOLDER: 'Enter tenure in months',
+  TENURE_PLACEHOLDER: 'Enter tenure in years',
   MONTHLY_EMI: 'Monthly EMI',
   TOTAL_AMOUNT: 'Total Amount',
   TOTAL_INTEREST: 'Total Interest',
@@ -175,6 +175,9 @@ export const AGE_CALCULATOR = {
   MONTHS: 'Months',
   DAYS: 'Days',
   TOTAL_DAYS: 'Total Days',
+  TOTAL_HOURS: 'Total Hours',
+  TOTAL_MINUTES: 'Total Minutes',
+  TOTAL_SECONDS: 'Total Seconds',
 } as const;
 
 // GST Calculator
