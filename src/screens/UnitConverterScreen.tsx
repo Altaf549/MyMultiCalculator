@@ -287,20 +287,21 @@ const styles = StyleSheet.create({
     },
     swapButton: {
         padding: SPACING.SM,
-        marginHorizontal: SPACING.MD,
+        marginHorizontal: SPACING.SM,
     },
     buttonSection: {
-        marginVertical: SPACING.XXS,
+        marginBottom: SPACING.MD,
+        marginTop: SPACING.XS,
     },
     resultContainer: {
-        padding: SPACING.LG,
+        padding: SPACING.SM,
         borderRadius: 8,
         borderWidth: 1,
         alignItems: 'center',
     },
     resultLabel: {
         ...TEXT_STYLES.CAPTION,
-        marginBottom: SPACING.SM,
+        marginBottom: SPACING.XXS,
     },
     resultValue: {
         ...TEXT_STYLES.RESULT,

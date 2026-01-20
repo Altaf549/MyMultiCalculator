@@ -93,7 +93,7 @@ const CurrencyConverterScreen: React.FC = () => {
           />
 
           <View style={styles.currencyRow}>
-            <View style={styles.pickerContainer}>
+            <View style={[styles.pickerContainer, { marginTop: SPACING.XS }]}>
               <Text style={[styles.pickerLabel, { color: colors.TEXT_PRIMARY }]}>{CURRENCY_CONVERTER.FROM_LABEL}</Text>
               <Dropdown
                 data={currencies.map(currency => ({ 
@@ -116,7 +116,7 @@ const CurrencyConverterScreen: React.FC = () => {
               />
             </View>
 
-            <View style={styles.pickerContainer}>
+            <View style={[styles.pickerContainer, { marginTop: SPACING.SM }]}>
               <Text style={[styles.pickerLabel, { color: colors.TEXT_PRIMARY }]}>{CURRENCY_CONVERTER.TO_LABEL}</Text>
               <Dropdown
                 data={currencies.map(currency => ({ 
@@ -175,7 +175,7 @@ const CurrencyConverterScreen: React.FC = () => {
         )}
 
         {convertedAmount !== null && !loading && !error && (
-          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]}>
             <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
             <Text style={[styles.resultValue, { color: colors.PRIMARY }]}>
               {convertedAmount.toFixed(2)} {toCurrency}
@@ -198,19 +198,18 @@ const styles = {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
   },
   inputSection: {
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.SM,
   },
   currencyRow: {
     flex: 1,
     justifyContent: 'space-between' as const,
-    marginBottom: SPACING.MD,
   },
   pickerContainer: {
     flex: 1,
   },
   pickerLabel: {
     ...TEXT_STYLES.LABEL,
-    marginBottom: SPACING.SM,
+    marginBottom: SPACING.XS,
   },
   dropdown: {
     flex: 1,
@@ -218,7 +217,6 @@ const styles = {
     borderRadius: COMPONENT_SPACING.INPUT_BORDER_RADIUS,
     height: COMPONENT_SPACING.INPUT_MIN_HEIGHT,
     paddingHorizontal: SPACING.SM,
-    marginBottom: 20
   },
   placeholderStyle: {
     ...TEXT_STYLES.BODY,
@@ -234,7 +232,7 @@ const styles = {
     height: 20,
   },
   buttonSection: {
-    marginBottom: SPACING.LG,
+    marginBottom: SPACING.MD,
   },
   loadingSection: {
     alignItems: 'center' as const,
@@ -254,23 +252,20 @@ const styles = {
     textAlign: 'center' as const,
   },
   resultSection: {
-    padding: SPACING.LG,
+    padding: SPACING.SM,
+    paddingBottom: SPACING.SM,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     alignItems: 'center' as const,
-    shadowColor: '#000000',
-    shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
-    shadowOpacity: 0.1,
-    shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
-    elevation: 3,
+    borderWidth: 1,
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    marginBottom: SPACING.MD,
+    marginBottom: SPACING.XS,
   },
   resultValue: {
     ...TEXT_STYLES.RESULT,
     fontWeight: FONT_WEIGHTS.BOLD,
-    marginBottom: SPACING.SM,
+    marginBottom: SPACING.XXS,
   },
   exchangeRate: {
     ...TEXT_STYLES.BODY_SMALL,

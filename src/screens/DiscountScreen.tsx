@@ -127,11 +127,11 @@ const styles = {
     marginBottom: SPACING.XXS,
   },
   buttonSection: {
-    marginBottom: SPACING.SM,
+    marginBottom: SPACING.MD,
   },
   resultSection: {
     padding: SPACING.SM,
-    paddingBottom: SPACING.XS,
+    paddingBottom: SPACING.SM,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     alignItems: 'stretch' as const,
     borderWidth: 1,
