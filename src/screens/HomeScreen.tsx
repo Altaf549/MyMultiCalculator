@@ -29,7 +29,7 @@ const HomeScreen: React.FC = () => {
       description: CALCULATORS.SIMPLE.DESCRIPTION,
       iconName: CALCULATORS.SIMPLE.ICON,
       onPress: () => navigation.navigate('SimpleCalculator'),
-      color: COLORS.PRIMARY,
+      color: COLORS.SIMPLE_CALCULATOR,
     },
     {
       key: 'scientific',
@@ -37,7 +37,7 @@ const HomeScreen: React.FC = () => {
       description: CALCULATORS.SCIENTIFIC.DESCRIPTION,
       iconName: CALCULATORS.SCIENTIFIC.ICON,
       onPress: () => navigation.navigate('ScientificCalculator'),
-      color: COLORS.SECONDARY,
+      color: COLORS.SCIENTIFIC_CALCULATOR,
     },
     {
       key: 'bmi',
@@ -45,7 +45,7 @@ const HomeScreen: React.FC = () => {
       description: CALCULATORS.BMI.DESCRIPTION,
       iconName: CALCULATORS.BMI.ICON,
       onPress: () => navigation.navigate('BMI'),
-      color: COLORS.SUCCESS,
+      color: COLORS.BMI_CALCULATOR,
     },
     {
       key: 'emi',
@@ -53,7 +53,7 @@ const HomeScreen: React.FC = () => {
       description: CALCULATORS.EMI.DESCRIPTION,
       iconName: CALCULATORS.EMI.ICON,
       onPress: () => navigation.navigate('EMI'),
-      color: COLORS.WARNING,
+      color: COLORS.EMI_CALCULATOR,
     },
     {
       key: 'age',
@@ -61,7 +61,7 @@ const HomeScreen: React.FC = () => {
       description: CALCULATORS.AGE.DESCRIPTION,
       iconName: CALCULATORS.AGE.ICON,
       onPress: () => navigation.navigate('Age'),
-      color: COLORS.INFO,
+      color: COLORS.AGE_CALCULATOR,
     },
     {
       key: 'gst',
@@ -69,7 +69,7 @@ const HomeScreen: React.FC = () => {
       description: CALCULATORS.GST.DESCRIPTION,
       iconName: CALCULATORS.GST.ICON,
       onPress: () => navigation.navigate('GST'),
-      color: COLORS.SECONDARY_LIGHT,
+      color: COLORS.GST_CALCULATOR,
     },
     {
       key: 'discount',
@@ -77,7 +77,7 @@ const HomeScreen: React.FC = () => {
       description: CALCULATORS.DISCOUNT.DESCRIPTION,
       iconName: CALCULATORS.DISCOUNT.ICON,
       onPress: () => navigation.navigate('Discount'),
-      color: COLORS.SUCCESS_LIGHT,
+      color: COLORS.DISCOUNT_CALCULATOR,
     },
     {
       key: 'currency',
@@ -85,12 +85,12 @@ const HomeScreen: React.FC = () => {
       description: CALCULATORS.CURRENCY.DESCRIPTION,
       iconName: CALCULATORS.CURRENCY.ICON,
       onPress: () => navigation.navigate('CurrencyConverter'),
-      color: COLORS.PRIMARY_DARK,
+      color: COLORS.CURRENCY_CALCULATOR,
     },
   ];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.container}>
       <ScrollView
         style={styles.scrollView}
         contentContainerStyle={styles.scrollContent}
@@ -116,11 +116,6 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: COLORS.BACKGROUND,
   },
-  header: {
-    padding: COMPONENT_SPACING.SCREEN_PADDING,
-    backgroundColor: COLORS.PRIMARY,
-    paddingBottom: scale(24),
-  },
   title: {
     ...TEXT_STYLES.H2,
     color: COLORS.TEXT_WHITE,
@@ -136,7 +131,7 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.BACKGROUND,
   },
   scrollContent: {
-    paddingVertical: COMPONENT_SPACING.SCREEN_PADDING,
+    paddingVertical: COMPONENT_SPACING.CARD_PADDING,
   },
 });
 

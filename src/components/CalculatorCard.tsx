@@ -32,7 +32,7 @@ const CalculatorCard: React.FC<CalculatorCardProps> = ({
 }) => {
   return (
     <TouchableOpacity
-      style={[styles.container, { borderLeftColor: color }, style]}
+      style={[styles.container, { borderColor: color }, style]}
       onPress={onPress}
       activeOpacity={0.7}
     >
@@ -67,6 +67,7 @@ const styles = StyleSheet.create({
     marginHorizontal: COMPONENT_SPACING.CARD_MARGIN,
     flexDirection: 'row',
     alignItems: 'center',
+    borderWidth: 1,
     borderLeftWidth: 4,
     shadowColor: COLORS.SHADOW,
     shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,

@@ -1,5 +1,7 @@
 // Color Palette and Theme Definitions
 
+import { EMI_CALCULATOR, SCIENTIFIC_CALCULATOR } from "../utils/constants";
+
 export const COLORS = {
   // Primary Colors
   PRIMARY: '#007AFF',
@@ -71,6 +73,16 @@ export const COLORS = {
   // Shadow Colors
   SHADOW: 'rgba(0, 0, 0, 0.1)',
   SHADOW_DARK: 'rgba(0, 0, 0, 0.2)',
+
+  SIMPLE_CALCULATOR: '#4CAF50',
+  SCIENTIFIC_CALCULATOR: '#2196F3',
+  EMI_CALCULATOR: '#FF9800',
+  AGE_CALCULATOR: '#9C27B0',
+  GST_CALCULATOR: '#009688',
+  DISCOUNT_CALCULATOR: '#3F51B5',
+  CURRENCY_CALCULATOR: '#F44336',
+  BMI_CALCULATOR: '#440606ff',
+  
 } as const;
 
 // Theme Types

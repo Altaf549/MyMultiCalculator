@@ -26,6 +26,8 @@ const AppNavigator: React.FC = () => {
         screenOptions={{
           headerStyle: {
             backgroundColor: COLORS.PRIMARY,
+            elevation: 0,
+            shadowOpacity: 0,
           },
           headerTintColor: COLORS.TEXT_WHITE,
           headerTitleStyle: {
@@ -39,11 +41,6 @@ const AppNavigator: React.FC = () => {
           component={HomeScreen}
           options={{
             title: 'Multi Calculator',
-            headerStyle: {
-              backgroundColor: COLORS.PRIMARY,
-              elevation: 0,
-              shadowOpacity: 0,
-            },
           }}
         />
         <Stack.Screen

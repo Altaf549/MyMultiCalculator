@@ -111,7 +111,7 @@ const SimpleCalculatorScreen: React.FC = () => {
   );
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.container}>
       <View style={styles.displayContainer}>
         <Text style={styles.display}>{display}</Text>
       </View>

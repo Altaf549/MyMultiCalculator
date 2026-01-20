@@ -60,7 +60,7 @@ const AgeScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView  edges={['bottom', 'left', 'right']} style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
         <TouchableOpacity style={styles.datePickerButton} onPress={showDatePicker}>
           <Text style={styles.datePickerLabel}>{AGE_CALCULATOR.BIRTH_DATE_LABEL}</Text>
