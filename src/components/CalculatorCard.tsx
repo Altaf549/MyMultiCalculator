@@ -68,7 +68,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderLeftWidth: 4,
+    borderLeftWidth: 5,
     shadowColor: COLORS.SHADOW,
     shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
     shadowOpacity: 0.1,
