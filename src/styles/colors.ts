@@ -86,13 +86,13 @@ export const COLORS = {
 } as const;
 
 // Theme Types
-export type ThemeColors = typeof COLORS;
+export type ThemeColors = typeof COLORS | typeof DARK_COLORS;
 
 // Dark Mode Colors
 export const DARK_COLORS = {
   ...COLORS,
   BACKGROUND: '#000000' as const,
-  BACKGROUND_DARK: '#121212' as const,  // Better dark background
+  BACKGROUND_DARK: '#1C1C1E' as const,
   CARD_BACKGROUND: '#1C1C1E' as const,
   TEXT_PRIMARY: '#FFFFFF' as const,
   TEXT_SECONDARY: '#AEAEB2' as const,

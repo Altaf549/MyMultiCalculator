@@ -10,13 +10,13 @@ import { ThemeProvider, useTheme } from './src/context/ThemeContext';
 import AppNavigator from './src/navigation/AppNavigator';
 
 const AppContent: React.FC = () => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   
   return (
     <>
       <StatusBar 
-        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} 
-        backgroundColor={theme === 'dark' ? '#000000' : '#007AFF'} 
+        barStyle={resolvedTheme === 'dark' ? 'light-content' : 'dark-content'} 
+        backgroundColor={resolvedTheme === 'dark' ? '#000000' : '#007AFF'} 
       />
       <AppNavigator />
     </>
