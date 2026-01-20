@@ -10,6 +10,10 @@ interface ThemeToggleProps {
 const ThemeToggle: React.FC<ThemeToggleProps> = ({ size = 24 }) => {
   const { theme, toggleTheme, colors } = useTheme();
 
+  const getIconName = () => {
+    return theme === 'light' ? 'dark-mode' : 'light-mode';
+  };
+
   return (
     <TouchableOpacity
       onPress={toggleTheme}
@@ -17,7 +21,7 @@ const ThemeToggle: React.FC<ThemeToggleProps> = ({ size = 24 }) => {
       hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
     >
       <Icon
-        name={theme === 'light' ? 'dark-mode' : 'light-mode'}
+        name={getIconName()}
         size={size}
         color={colors.TEXT_WHITE}
       />

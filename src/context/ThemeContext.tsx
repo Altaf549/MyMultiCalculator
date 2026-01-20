@@ -1,64 +1,59 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { COLORS, DARK_COLORS } from '../styles/colors';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
+import { useColorScheme, Appearance } from 'react-native';
+import { COLORS, DARK_COLORS, ThemeColors} from '../styles/colors';
 
-export type Theme = 'light' | 'dark';
+type ThemeType = 'light' | 'dark';
+type ResolvedThemeType = 'light' | 'dark';
 
-export interface ThemeContextType {
-  theme: Theme;
-  colors: typeof COLORS | typeof DARK_COLORS;
-  toggleTheme: () => void;
+interface ThemeContextType {
+  theme: ThemeType;  // 'light' | 'dark'
+  resolvedTheme: ResolvedThemeType;  // 'light' | 'dark' (resolved value)
+  colors: ThemeColors;
   isDark: boolean;
+  setTheme: (theme: ThemeType) => void;
+  toggleTheme: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
-export const useTheme = (): ThemeContextType => {
+export const ThemeProvider: React.FC<{children: React.ReactNode}> = ({ children }) => {
+  const systemColorScheme = useColorScheme() as ResolvedThemeType;
+  const [theme, setTheme] = useState<ThemeType>(systemColorScheme || 'light');
+  const resolvedTheme = theme;
+  
+  // Auto-update theme when system theme changes
+  useEffect(() => {
+    const subscription = Appearance.addChangeListener(({ colorScheme }) => {
+      setTheme((colorScheme as ResolvedThemeType) || 'light');
+    });
+
+    return () => subscription.remove();
+  }, []);
+  
+  const isDark = resolvedTheme === 'dark';
+  const colors = isDark ? DARK_COLORS : COLORS;
+
+
+  const toggleTheme = () => {
+    setTheme(prevTheme => prevTheme === 'light' ? 'dark' : 'light');
+  };
+
+  const value = useMemo(() => ({
+    theme,
+    resolvedTheme,
+    colors,
+    isDark,
+    setTheme,
+    toggleTheme,
+  }), [theme, resolvedTheme, isDark, colors]);
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+};
+
+export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (!context) {
+  if (context === undefined) {
     throw new Error('useTheme must be used within a ThemeProvider');
   }
   return context;
-};
-
-interface ThemeProviderProps {
-  children: React.ReactNode;
-}
-
-export const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
-  const [theme, setTheme] = useState<Theme>('light');
-
-  useEffect(() => {
-    loadTheme();
-  }, []);
-
-  const loadTheme = async () => {
-    try {
-      const savedTheme = await AsyncStorage.getItem('theme');
-      if (savedTheme === 'dark' || savedTheme === 'light') {
-        setTheme(savedTheme);
-      }
-    } catch (error) {
-      console.log('Error loading theme:', error);
-    }
-  };
-
-  const toggleTheme = async () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    try {
-      await AsyncStorage.setItem('theme', newTheme);
-    } catch (error) {
-      console.log('Error saving theme:', error);
-    }
-  };
-
-  const colors = theme === 'dark' ? DARK_COLORS : COLORS;
-  const isDark = theme === 'dark';
-
-  return (
-    <ThemeContext.Provider value={{ theme, colors, toggleTheme, isDark }}>
-      {children}
-    </ThemeContext.Provider>
-  );
 };
