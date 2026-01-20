@@ -1,7 +1,8 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { COLORS } from '../styles/colors';
+import { useTheme } from '../context/ThemeContext';
+import ThemeToggle from '../components/ThemeToggle';
 
 // Import screens (will be created next)
 import HomeScreen from '../screens/HomeScreen';
@@ -19,21 +20,24 @@ import { RootStackParamList } from '../types/navigation';
 const Stack = createStackNavigator<RootStackParamList>();
 
 const AppNavigator: React.FC = () => {
+  const { colors } = useTheme();
+
   return (
     <NavigationContainer>
       <Stack.Navigator
         initialRouteName="Home"
         screenOptions={{
           headerStyle: {
-            backgroundColor: COLORS.PRIMARY,
+            backgroundColor: colors.PRIMARY,
             elevation: 0,
             shadowOpacity: 0,
           },
-          headerTintColor: COLORS.TEXT_WHITE,
+          headerTintColor: colors.TEXT_WHITE,
           headerTitleStyle: {
             fontWeight: '600',
             fontSize: 18,
           },
+          headerRight: () => <ThemeToggle />,
         }}
       >
         <Stack.Screen

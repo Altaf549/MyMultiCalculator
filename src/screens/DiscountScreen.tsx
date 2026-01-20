@@ -5,7 +5,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { scale } from '../utils/scaling';
-import { COLORS } from '../styles/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TEXT_STYLES, FONT_WEIGHTS } from '../styles/typography';
 import { COMPONENT_SPACING, SPACING } from '../styles/spacing';
 import { DISCOUNT_CALCULATOR, COMMON } from '../utils/constants';
@@ -14,6 +14,7 @@ import AppButton from '../components/AppButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const DiscountScreen: React.FC = () => {
+  const { colors } = useTheme();
   const [originalPrice, setOriginalPrice] = useState('');
   const [discount, setDiscount] = useState('');
   const [discountAmount, setDiscountAmount] = useState<number | null>(null);
@@ -43,7 +44,7 @@ const DiscountScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.container}>
+    <SafeAreaView edges={['bottom', 'left', 'right']} style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.inputSection}>
           <AppInput
@@ -78,33 +79,33 @@ const DiscountScreen: React.FC = () => {
         </View>
 
         {discountAmount !== null && (
-          <View style={styles.resultSection}>
-            <Text style={styles.resultLabel}>{COMMON.RESULT}</Text>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+            <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
             
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={styles.subLabel}>{DISCOUNT_CALCULATOR.ORIGINAL_PRICE_TEXT}</Text>
-                <Text style={styles.originalPrice}>₹{parseFloat(originalPrice).toFixed(2)}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{DISCOUNT_CALCULATOR.ORIGINAL_PRICE_TEXT}</Text>
+                <Text style={[styles.originalPrice, { color: colors.TEXT_SECONDARY }]}>₹{parseFloat(originalPrice).toFixed(2)}</Text>
               </View>
             </View>
 
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={styles.subLabel}>{DISCOUNT_CALCULATOR.DISCOUNT_AMOUNT}</Text>
-                <Text style={styles.discountValue}>-₹{discountAmount?.toFixed(2)}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{DISCOUNT_CALCULATOR.DISCOUNT_AMOUNT}</Text>
+                <Text style={[styles.discountValue, { color: colors.ERROR }]}>-₹{discountAmount?.toFixed(2)}</Text>
               </View>
             </View>
 
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={styles.subLabel}>{DISCOUNT_CALCULATOR.FINAL_PRICE}</Text>
-                <Text style={styles.finalPrice}>₹{finalPrice?.toFixed(2)}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{DISCOUNT_CALCULATOR.FINAL_PRICE}</Text>
+                <Text style={[styles.finalPrice, { color: colors.SUCCESS }]}>₹{finalPrice?.toFixed(2)}</Text>
               </View>
             </View>
 
-            <View style={styles.savingsSection}>
-              <Text style={styles.savingsLabel}>{DISCOUNT_CALCULATOR.YOU_SAVED}</Text>
-              <Text style={styles.savingsValue}>₹{savedAmount?.toFixed(2)}</Text>
+            <View style={[styles.savingsSection, { backgroundColor: colors.SUCCESS_LIGHT }]}>
+              <Text style={[styles.savingsLabel, { color: colors.SUCCESS_DARK }]}>{DISCOUNT_CALCULATOR.YOU_SAVED}</Text>
+              <Text style={[styles.savingsValue, { color: colors.SUCCESS_DARK }]}>₹{savedAmount?.toFixed(2)}</Text>
             </View>
           </View>
         )}
@@ -116,7 +117,6 @@ const DiscountScreen: React.FC = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: COLORS.BACKGROUND,
   },
   content: {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
@@ -128,11 +128,10 @@ const styles = {
     marginBottom: SPACING.LG,
   },
   resultSection: {
-    backgroundColor: COLORS.CARD_BACKGROUND,
     padding: SPACING.LG,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     alignItems: 'center' as const,
-    shadowColor: COLORS.SHADOW,
+    shadowColor: '#000000',
     shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
     shadowOpacity: 0.1,
     shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
@@ -140,7 +139,6 @@ const styles = {
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    color: COLORS.TEXT_SECONDARY,
     marginBottom: SPACING.LG,
   },
   resultRow: {
@@ -152,41 +150,34 @@ const styles = {
   },
   subLabel: {
     ...TEXT_STYLES.BODY_SMALL,
-    color: COLORS.TEXT_SECONDARY,
     marginBottom: SPACING.XS,
   },
   originalPrice: {
     ...TEXT_STYLES.H5,
-    color: COLORS.TEXT_SECONDARY,
     fontWeight: FONT_WEIGHTS.SEMIBOLD,
     textDecorationLine: 'line-through' as const,
   },
   discountValue: {
     ...TEXT_STYLES.H5,
-    color: COLORS.ERROR,
     fontWeight: FONT_WEIGHTS.SEMIBOLD,
   },
   finalPrice: {
     ...TEXT_STYLES.RESULT,
-    color: COLORS.SUCCESS,
     fontWeight: FONT_WEIGHTS.BOLD,
   },
   savingsSection: {
     marginTop: SPACING.MD,
     padding: SPACING.MD,
-    backgroundColor: COLORS.SUCCESS_LIGHT,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     width: '100%' as const,
     alignItems: 'center' as const,
   },
   savingsLabel: {
     ...TEXT_STYLES.BODY,
-    color: COLORS.SUCCESS_DARK,
     marginBottom: SPACING.XS,
   },
   savingsValue: {
     ...TEXT_STYLES.H4,
-    color: COLORS.SUCCESS_DARK,
     fontWeight: FONT_WEIGHTS.BOLD,
   },
 };

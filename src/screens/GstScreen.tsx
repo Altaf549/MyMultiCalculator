@@ -5,7 +5,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { scale } from '../utils/scaling';
-import { COLORS } from '../styles/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TEXT_STYLES, FONT_WEIGHTS } from '../styles/typography';
 import { COMPONENT_SPACING, SPACING } from '../styles/spacing';
 import { GST_CALCULATOR, COMMON } from '../utils/constants';
@@ -14,6 +14,7 @@ import AppButton from '../components/AppButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const GstScreen: React.FC = () => {
+  const { colors } = useTheme();
   const [amount, setAmount] = useState('');
   const [gstRate, setGstRate] = useState('');
   const [gstAmount, setGstAmount] = useState<number | null>(null);
@@ -43,7 +44,7 @@ const GstScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.container}>
+    <SafeAreaView edges={['bottom', 'left', 'right']} style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.inputSection}>
           <AppInput
@@ -78,27 +79,27 @@ const GstScreen: React.FC = () => {
         </View>
 
         {gstAmount !== null && (
-          <View style={styles.resultSection}>
-            <Text style={styles.resultLabel}>{COMMON.RESULT}</Text>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+            <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
             
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={styles.subLabel}>{GST_CALCULATOR.ORIGINAL_AMOUNT}</Text>
-                <Text style={styles.resultValue}>₹{originalAmount?.toFixed(2)}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{GST_CALCULATOR.ORIGINAL_AMOUNT}</Text>
+                <Text style={[styles.resultValue, { color: colors.TEXT_PRIMARY }]}>₹{originalAmount?.toFixed(2)}</Text>
               </View>
             </View>
 
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={styles.subLabel}>{GST_CALCULATOR.GST_AMOUNT}</Text>
-                <Text style={styles.gstValue}>₹{gstAmount?.toFixed(2)}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{GST_CALCULATOR.GST_AMOUNT}</Text>
+                <Text style={[styles.gstValue, { color: colors.WARNING }]}>₹{gstAmount?.toFixed(2)}</Text>
               </View>
             </View>
 
             <View style={styles.resultRow}>
               <View style={styles.resultItem}>
-                <Text style={styles.subLabel}>{GST_CALCULATOR.TOTAL_WITH_GST}</Text>
-                <Text style={styles.totalValue}>₹{totalWithGst?.toFixed(2)}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{GST_CALCULATOR.TOTAL_WITH_GST}</Text>
+                <Text style={[styles.totalValue, { color: colors.SUCCESS }]}>₹{totalWithGst?.toFixed(2)}</Text>
               </View>
             </View>
           </View>
@@ -111,7 +112,6 @@ const GstScreen: React.FC = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: COLORS.BACKGROUND,
   },
   content: {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
@@ -123,11 +123,10 @@ const styles = {
     marginBottom: SPACING.LG,
   },
   resultSection: {
-    backgroundColor: COLORS.CARD_BACKGROUND,
     padding: SPACING.LG,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     alignItems: 'center' as const,
-    shadowColor: COLORS.SHADOW,
+    shadowColor: '#000000',
     shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
     shadowOpacity: 0.1,
     shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
@@ -135,7 +134,6 @@ const styles = {
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    color: COLORS.TEXT_SECONDARY,
     marginBottom: SPACING.LG,
   },
   resultRow: {
@@ -147,22 +145,18 @@ const styles = {
   },
   subLabel: {
     ...TEXT_STYLES.BODY_SMALL,
-    color: COLORS.TEXT_SECONDARY,
     marginBottom: SPACING.XS,
   },
   resultValue: {
     ...TEXT_STYLES.H5,
-    color: COLORS.TEXT_PRIMARY,
     fontWeight: FONT_WEIGHTS.SEMIBOLD,
   },
   gstValue: {
     ...TEXT_STYLES.H5,
-    color: COLORS.WARNING,
     fontWeight: FONT_WEIGHTS.SEMIBOLD,
   },
   totalValue: {
     ...TEXT_STYLES.RESULT,
-    color: COLORS.SUCCESS,
     fontWeight: FONT_WEIGHTS.BOLD,
   },
 };

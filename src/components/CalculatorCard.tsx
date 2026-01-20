@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import Icon from '@react-native-vector-icons/material-icons';
 import { scale, moderateScale } from '../utils/scaling';
-import { COLORS } from '../styles/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TEXT_STYLES } from '../styles/typography';
 import { COMPONENT_SPACING } from '../styles/spacing';
 
@@ -27,31 +27,34 @@ const CalculatorCard: React.FC<CalculatorCardProps> = ({
   description,
   iconName,
   onPress,
-  color = COLORS.PRIMARY,
+  color,
   style,
 }) => {
+  const { colors } = useTheme();
+  const cardColor = color || colors.PRIMARY;
+
   return (
     <TouchableOpacity
-      style={[styles.container, { borderColor: color }, style]}
+      style={[styles.container, { borderColor: cardColor, backgroundColor: colors.CARD_BACKGROUND }, style]}
       onPress={onPress}
       activeOpacity={0.7}
     >
-      <View style={styles.iconContainer}>
+      <View style={[styles.iconContainer, { backgroundColor: colors.BACKGROUND_DARK }]}>
         <Icon
           name={iconName as any}
           size={scale(32)}
-          color={color}
+          color={cardColor}
           style={styles.icon}
         />
       </View>
       <View style={styles.textContainer}>
-        <Text style={[styles.title, { color }]}>{title}</Text>
-        <Text style={styles.description}>{description}</Text>
+        <Text style={[styles.title, { color: cardColor }]}>{title}</Text>
+        <Text style={[styles.description, { color: colors.TEXT_SECONDARY }]}>{description}</Text>
       </View>
       <Icon
         name="chevron-right"
         size={scale(20)}
-        color={COLORS.TEXT_TERTIARY}
+        color={colors.TEXT_TERTIARY}
         style={styles.chevron}
       />
     </TouchableOpacity>
@@ -60,7 +63,6 @@ const CalculatorCard: React.FC<CalculatorCardProps> = ({
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: COLORS.CARD_BACKGROUND,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     padding: COMPONENT_SPACING.CARD_PADDING,
     marginVertical: COMPONENT_SPACING.CARD_MARGIN,
@@ -69,7 +71,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     borderWidth: 1,
     borderLeftWidth: 5,
-    shadowColor: COLORS.SHADOW,
+    shadowColor: '#000000',
     shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
     shadowOpacity: 0.1,
     shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
@@ -79,7 +81,6 @@ const styles = StyleSheet.create({
     width: scale(60),
     height: scale(60),
     borderRadius: scale(30),
-    backgroundColor: COLORS.BACKGROUND_DARK,
     justifyContent: 'center',
     alignItems: 'center',
     marginRight: COMPONENT_SPACING.CARD_MARGIN,
@@ -98,7 +99,6 @@ const styles = StyleSheet.create({
   },
   description: {
     ...TEXT_STYLES.BODY_SMALL,
-    color: COLORS.TEXT_SECONDARY,
   },
   chevron: {
     marginLeft: COMPONENT_SPACING.CARD_MARGIN,

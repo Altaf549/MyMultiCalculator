@@ -5,7 +5,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { scale } from '../utils/scaling';
-import { COLORS } from '../styles/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TEXT_STYLES, FONT_WEIGHTS } from '../styles/typography';
 import { COMPONENT_SPACING, SPACING } from '../styles/spacing';
 import { EMI_CALCULATOR, COMMON } from '../utils/constants';
@@ -14,6 +14,7 @@ import AppButton from '../components/AppButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const EmiScreen: React.FC = () => {
+  const { colors } = useTheme();
   const [principal, setPrincipal] = useState('');
   const [rate, setRate] = useState('');
   const [tenure, setTenure] = useState('');
@@ -47,7 +48,7 @@ const EmiScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.container}>
+    <SafeAreaView edges={['bottom', 'left', 'right']} style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.inputSection}>
           <AppInput
@@ -90,18 +91,18 @@ const EmiScreen: React.FC = () => {
         </View>
 
         {emi !== null && (
-          <View style={styles.resultSection}>
-            <Text style={styles.resultLabel}>{EMI_CALCULATOR.MONTHLY_EMI}</Text>
-            <Text style={styles.resultValue}>₹{emi.toLocaleString()}</Text>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+            <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{EMI_CALCULATOR.MONTHLY_EMI}</Text>
+            <Text style={[styles.resultValue, { color: colors.PRIMARY }]}>₹{emi.toLocaleString()}</Text>
             
             <View style={styles.row}>
               <View style={styles.halfWidth}>
-                <Text style={styles.subLabel}>{EMI_CALCULATOR.TOTAL_AMOUNT}</Text>
-                <Text style={styles.subValue}>₹{totalAmount?.toLocaleString()}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{EMI_CALCULATOR.TOTAL_AMOUNT}</Text>
+                <Text style={[styles.subValue, { color: colors.TEXT_PRIMARY }]}>₹{totalAmount?.toLocaleString()}</Text>
               </View>
               <View style={styles.halfWidth}>
-                <Text style={styles.subLabel}>{EMI_CALCULATOR.TOTAL_INTEREST}</Text>
-                <Text style={styles.subValue}>₹{totalInterest?.toLocaleString()}</Text>
+                <Text style={[styles.subLabel, { color: colors.TEXT_SECONDARY }]}>{EMI_CALCULATOR.TOTAL_INTEREST}</Text>
+                <Text style={[styles.subValue, { color: colors.TEXT_PRIMARY }]}>₹{totalInterest?.toLocaleString()}</Text>
               </View>
             </View>
           </View>
@@ -114,7 +115,6 @@ const EmiScreen: React.FC = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: COLORS.BACKGROUND,
   },
   content: {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
@@ -126,12 +126,11 @@ const styles = {
     marginBottom: SPACING.LG,
   },
   resultSection: {
-    backgroundColor: COLORS.CARD_BACKGROUND,
     padding: SPACING.LG,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     alignItems: 'center' as const,
     marginBottom: SPACING.LG,
-    shadowColor: COLORS.SHADOW,
+    shadowColor: '#000000',
     shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
     shadowOpacity: 0.1,
     shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
@@ -139,12 +138,10 @@ const styles = {
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    color: COLORS.TEXT_SECONDARY,
     marginBottom: SPACING.SM,
   },
   resultValue: {
     ...TEXT_STYLES.RESULT,
-    color: COLORS.PRIMARY,
     marginBottom: SPACING.LG,
   },
   row: {
@@ -158,12 +155,10 @@ const styles = {
   },
   subLabel: {
     ...TEXT_STYLES.BODY_SMALL,
-    color: COLORS.TEXT_SECONDARY,
     marginBottom: SPACING.XS,
   },
   subValue: {
     ...TEXT_STYLES.H6,
-    color: COLORS.TEXT_PRIMARY,
     fontWeight: FONT_WEIGHTS.SEMIBOLD,
   },
 };

@@ -5,7 +5,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { scale, moderateScale } from '../utils/scaling';
-import { COLORS } from '../styles/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TEXT_STYLES, FONT_WEIGHTS } from '../styles/typography';
 import { COMPONENT_SPACING, SPACING } from '../styles/spacing';
 import { BMI_CALCULATOR, COMMON } from '../utils/constants';
@@ -15,6 +15,7 @@ import HeightUnitSelector from '../components/HeightUnitSelector';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const BmiScreen: React.FC = () => {
+  const { colors } = useTheme();
   const [weight, setWeight] = useState('');
   const [height, setHeight] = useState('');
   const [feet, setFeet] = useState('');
@@ -86,20 +87,20 @@ const BmiScreen: React.FC = () => {
   const getCategoryColor = () => {
     switch (category) {
       case BMI_CALCULATOR.CATEGORIES.UNDERWEIGHT:
-        return COLORS.BMI_UNDERWEIGHT;
+        return colors.BMI_UNDERWEIGHT;
       case BMI_CALCULATOR.CATEGORIES.NORMAL:
-        return COLORS.BMI_NORMAL;
+        return colors.BMI_NORMAL;
       case BMI_CALCULATOR.CATEGORIES.OVERWEIGHT:
-        return COLORS.BMI_OVERWEIGHT;
+        return colors.BMI_OVERWEIGHT;
       case BMI_CALCULATOR.CATEGORIES.OBESE:
-        return COLORS.BMI_OBESE;
+        return colors.BMI_OBESE;
       default:
-        return COLORS.TEXT_PRIMARY;
+        return colors.TEXT_PRIMARY;
     }
   };
 
   return (
-    <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.container}>
+    <SafeAreaView edges={['bottom', 'left', 'right']} style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.inputSection}>
           <AppInput
@@ -161,17 +162,17 @@ const BmiScreen: React.FC = () => {
         </View>
 
         {bmi !== null && (
-          <View style={styles.resultSection}>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
             <View style={styles.resultHeader}>
-              <Text style={styles.resultLabel}>{COMMON.RESULT}</Text>
-              <Text style={styles.bmiValue}>{bmi}</Text>
+              <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
+              <Text style={[styles.bmiValue, { color: colors.PRIMARY }]}>{bmi}</Text>
             </View>
             <View style={styles.bmiIndicator}>
               <View style={styles.bmiScale}>
-                <View style={[styles.scaleSegment, { backgroundColor: COLORS.BMI_UNDERWEIGHT }]} />
-                <View style={[styles.scaleSegment, { backgroundColor: COLORS.BMI_NORMAL }]} />
-                <View style={[styles.scaleSegment, { backgroundColor: COLORS.BMI_OVERWEIGHT }]} />
-                <View style={[styles.scaleSegment, { backgroundColor: COLORS.BMI_OBESE }]} />
+                <View style={[styles.scaleSegment, { backgroundColor: colors.BMI_UNDERWEIGHT }]} />
+                <View style={[styles.scaleSegment, { backgroundColor: colors.BMI_NORMAL }]} />
+                <View style={[styles.scaleSegment, { backgroundColor: colors.BMI_OVERWEIGHT }]} />
+                <View style={[styles.scaleSegment, { backgroundColor: colors.BMI_OBESE }]} />
               </View>
               <View 
                 style={[
@@ -186,18 +187,18 @@ const BmiScreen: React.FC = () => {
           </View>
         )}
 
-        <View style={styles.infoSection}>
-          <Text style={styles.infoTitle}>BMI Categories:</Text>
-          <Text style={[styles.infoItem, { color: COLORS.BMI_UNDERWEIGHT }]}>
+        <View style={[styles.infoSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+          <Text style={[styles.infoTitle, { color: colors.TEXT_PRIMARY }]}>BMI Categories:</Text>
+          <Text style={[styles.infoItem, { color: colors.BMI_UNDERWEIGHT }]}>
             Underweight: {'< 18.5'}
           </Text>
-          <Text style={[styles.infoItem, { color: COLORS.BMI_NORMAL }]}>
+          <Text style={[styles.infoItem, { color: colors.BMI_NORMAL }]}>
             Normal weight: 18.5 - 24.9
           </Text>
-          <Text style={[styles.infoItem, { color: COLORS.BMI_OVERWEIGHT }]}>
+          <Text style={[styles.infoItem, { color: colors.BMI_OVERWEIGHT }]}>
             Overweight: 25 - 29.9
           </Text>
-          <Text style={[styles.infoItem, { color: COLORS.BMI_OBESE }]}>
+          <Text style={[styles.infoItem, { color: colors.BMI_OBESE }]}>
             Obese: {'≥ 30'}
           </Text>
         </View>
@@ -209,7 +210,6 @@ const BmiScreen: React.FC = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: COLORS.BACKGROUND,
   },
   content: {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
@@ -221,15 +221,9 @@ const styles = {
     marginBottom: SPACING.XS,
   },
   resultSection: {
-    backgroundColor: COLORS.CARD_BACKGROUND,
     padding: SPACING.XS,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     marginBottom: SPACING.XS,
-    shadowColor: COLORS.SHADOW,
-    shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
-    shadowOpacity: 0.1,
-    shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
-    elevation: 3,
   },
   resultHeader: {
     flexDirection: 'row' as const,
@@ -262,20 +256,13 @@ const styles = {
     width: scale(12),
     height: scale(12),
     borderRadius: scale(6),
-    shadowColor: COLORS.SHADOW,
-    shadowOffset: { width: 0, height: 1 },
-    shadowOpacity: 0.2,
-    shadowRadius: 2,
-    elevation: 2,
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    color: COLORS.TEXT_SECONDARY,
     marginBottom: SPACING.XS,
   },
   bmiValue: {
     ...TEXT_STYLES.RESULT,
-    color: COLORS.PRIMARY,
     marginBottom: SPACING.XS,
   },
   category: {
@@ -283,18 +270,11 @@ const styles = {
     fontWeight: FONT_WEIGHTS.SEMIBOLD,
   },
   infoSection: {
-    backgroundColor: COLORS.CARD_BACKGROUND,
     padding: SPACING.XS,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
-    shadowColor: COLORS.SHADOW,
-    shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
-    shadowOpacity: 0.1,
-    shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
-    elevation: 3,
   },
   infoTitle: {
     ...TEXT_STYLES.H6,
-    color: COLORS.TEXT_PRIMARY,
     marginBottom: SPACING.XS,
   },
   infoItem: {

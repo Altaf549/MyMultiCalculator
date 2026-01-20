@@ -8,7 +8,7 @@ import {
   ActivityIndicator,
 } from 'react-native';
 import { scale, moderateScale } from '../utils/scaling';
-import { COLORS } from '../styles/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TEXT_STYLES } from '../styles/typography';
 import { COMPONENT_SPACING } from '../styles/spacing';
 
@@ -35,6 +35,8 @@ const AppButton: React.FC<AppButtonProps> = ({
   textStyle,
   icon,
 }) => {
+  const { colors } = useTheme();
+
   const getButtonStyle = (): ViewStyle => {
     const baseStyle: ViewStyle = {
       ...styles.button,
@@ -63,15 +65,15 @@ const AppButton: React.FC<AppButtonProps> = ({
     // Variant styles
     const variantStyles = {
       primary: {
-        backgroundColor: disabled ? COLORS.TEXT_DISABLED : COLORS.PRIMARY,
+        backgroundColor: disabled ? colors.TEXT_DISABLED : colors.PRIMARY,
       },
       secondary: {
-        backgroundColor: disabled ? COLORS.TEXT_DISABLED : COLORS.SECONDARY,
+        backgroundColor: disabled ? colors.TEXT_DISABLED : colors.SECONDARY,
       },
       outline: {
         backgroundColor: 'transparent',
         borderWidth: 1,
-        borderColor: disabled ? COLORS.TEXT_DISABLED : COLORS.PRIMARY,
+        borderColor: disabled ? colors.TEXT_DISABLED : colors.PRIMARY,
       },
       ghost: {
         backgroundColor: 'transparent',
@@ -100,16 +102,16 @@ const AppButton: React.FC<AppButtonProps> = ({
     // Variant text styles
     const variantTextStyles = {
       primary: {
-        color: disabled ? COLORS.TEXT_WHITE : COLORS.TEXT_WHITE,
+        color: disabled ? colors.TEXT_WHITE : colors.TEXT_WHITE,
       },
       secondary: {
-        color: disabled ? COLORS.TEXT_WHITE : COLORS.TEXT_WHITE,
+        color: disabled ? colors.TEXT_WHITE : colors.TEXT_WHITE,
       },
       outline: {
-        color: disabled ? COLORS.TEXT_DISABLED : COLORS.PRIMARY,
+        color: disabled ? colors.TEXT_DISABLED : colors.PRIMARY,
       },
       ghost: {
-        color: disabled ? COLORS.TEXT_DISABLED : COLORS.PRIMARY,
+        color: disabled ? colors.TEXT_DISABLED : colors.PRIMARY,
       },
     };
 
@@ -130,7 +132,7 @@ const AppButton: React.FC<AppButtonProps> = ({
       {loading ? (
         <ActivityIndicator
           size="small"
-          color={variant === 'outline' || variant === 'ghost' ? COLORS.PRIMARY : COLORS.TEXT_WHITE}
+          color={variant === 'outline' || variant === 'ghost' ? colors.PRIMARY : colors.TEXT_WHITE}
         />
       ) : (
         <>

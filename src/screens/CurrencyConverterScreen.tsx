@@ -8,7 +8,7 @@ import {
 import { Dropdown } from 'react-native-element-dropdown';
 import axios from 'axios';
 import { scale } from '../utils/scaling';
-import { COLORS } from '../styles/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TEXT_STYLES, FONT_WEIGHTS } from '../styles/typography';
 import { COMPONENT_SPACING, SPACING } from '../styles/spacing';
 import { CURRENCY_CONVERTER, COMMON, API } from '../utils/constants';
@@ -22,6 +22,7 @@ interface ExchangeRate {
 }
 
 const CurrencyConverterScreen: React.FC = () => {
+  const { colors } = useTheme();
   const [amount, setAmount] = useState('');
   const [fromCurrency, setFromCurrency] = useState(API.DEFAULT_CURRENCY);
   const [toCurrency, setToCurrency] = useState('INR');
@@ -79,7 +80,7 @@ const CurrencyConverterScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView edges={['bottom', 'left', 'right']} style={styles.container}>
+    <SafeAreaView edges={['bottom', 'left', 'right']} style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <ScrollView contentContainerStyle={styles.content}>
         <View style={styles.inputSection}>
           <AppInput
@@ -93,7 +94,7 @@ const CurrencyConverterScreen: React.FC = () => {
 
           <View style={styles.currencyRow}>
             <View style={styles.pickerContainer}>
-              <Text style={styles.pickerLabel}>{CURRENCY_CONVERTER.FROM_LABEL}</Text>
+              <Text style={[styles.pickerLabel, { color: colors.TEXT_PRIMARY }]}>{CURRENCY_CONVERTER.FROM_LABEL}</Text>
               <Dropdown
                 data={currencies.map(currency => ({ 
                   label: currency, 
@@ -103,10 +104,10 @@ const CurrencyConverterScreen: React.FC = () => {
                 valueField="value"
                 value={fromCurrency}
                 onChange={item => setFromCurrency(item.value)}
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
+                style={[styles.dropdown, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]}
+                placeholderStyle={[styles.placeholderStyle, { color: colors.TEXT_SECONDARY }]}
+                selectedTextStyle={[styles.selectedTextStyle, { color: colors.TEXT_PRIMARY }]}
+                inputSearchStyle={[styles.inputSearchStyle, { color: colors.TEXT_PRIMARY }]}
                 iconStyle={styles.iconStyle}
                 disable={loading}
                 search
@@ -116,7 +117,7 @@ const CurrencyConverterScreen: React.FC = () => {
             </View>
 
             <View style={styles.pickerContainer}>
-              <Text style={styles.pickerLabel}>{CURRENCY_CONVERTER.TO_LABEL}</Text>
+              <Text style={[styles.pickerLabel, { color: colors.TEXT_PRIMARY }]}>{CURRENCY_CONVERTER.TO_LABEL}</Text>
               <Dropdown
                 data={currencies.map(currency => ({ 
                   label: currency, 
@@ -126,10 +127,10 @@ const CurrencyConverterScreen: React.FC = () => {
                 valueField="value"
                 value={toCurrency}
                 onChange={item => setToCurrency(item.value)}
-                style={styles.dropdown}
-                placeholderStyle={styles.placeholderStyle}
-                selectedTextStyle={styles.selectedTextStyle}
-                inputSearchStyle={styles.inputSearchStyle}
+                style={[styles.dropdown, { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }]}
+                placeholderStyle={[styles.placeholderStyle, { color: colors.TEXT_SECONDARY }]}
+                selectedTextStyle={[styles.selectedTextStyle, { color: colors.TEXT_PRIMARY }]}
+                inputSearchStyle={[styles.inputSearchStyle, { color: colors.TEXT_PRIMARY }]}
                 iconStyle={styles.iconStyle}
                 disable={loading}
                 search
@@ -156,14 +157,14 @@ const CurrencyConverterScreen: React.FC = () => {
 
         {loading && (
           <View style={styles.loadingSection}>
-            <ActivityIndicator size="large" color={COLORS.PRIMARY} />
-            <Text style={styles.loadingText}>{CURRENCY_CONVERTER.LOADING_RATES}</Text>
+            <ActivityIndicator size="large" color={colors.PRIMARY} />
+            <Text style={[styles.loadingText, { color: colors.TEXT_SECONDARY }]}>{CURRENCY_CONVERTER.LOADING_RATES}</Text>
           </View>
         )}
 
         {error && (
           <View style={styles.errorSection}>
-            <Text style={styles.errorText}>{error}</Text>
+            <Text style={[styles.errorText, { color: colors.ERROR }]}>{error}</Text>
             <AppButton
               title="Retry"
               onPress={fetchExchangeRates}
@@ -174,12 +175,12 @@ const CurrencyConverterScreen: React.FC = () => {
         )}
 
         {convertedAmount !== null && !loading && !error && (
-          <View style={styles.resultSection}>
-            <Text style={styles.resultLabel}>{COMMON.RESULT}</Text>
-            <Text style={styles.resultValue}>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+            <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
+            <Text style={[styles.resultValue, { color: colors.PRIMARY }]}>
               {convertedAmount.toFixed(2)} {toCurrency}
             </Text>
-            <Text style={styles.exchangeRate}>
+            <Text style={[styles.exchangeRate, { color: colors.TEXT_SECONDARY }]}>
               {CURRENCY_CONVERTER.EXCHANGE_RATE}: 1 {fromCurrency} = {getExchangeRate().toFixed(4)} {toCurrency}
             </Text>
           </View>
@@ -192,7 +193,6 @@ const CurrencyConverterScreen: React.FC = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: COLORS.BACKGROUND,
   },
   content: {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
@@ -210,14 +210,11 @@ const styles = {
   },
   pickerLabel: {
     ...TEXT_STYLES.LABEL,
-    color: COLORS.TEXT_PRIMARY,
     marginBottom: SPACING.SM,
   },
   dropdown: {
     flex: 1,
-    backgroundColor: COLORS.CARD_BACKGROUND,
     borderWidth: 1,
-    borderColor: COLORS.BORDER,
     borderRadius: COMPONENT_SPACING.INPUT_BORDER_RADIUS,
     height: COMPONENT_SPACING.INPUT_MIN_HEIGHT,
     paddingHorizontal: SPACING.SM,
@@ -225,15 +222,12 @@ const styles = {
   },
   placeholderStyle: {
     ...TEXT_STYLES.BODY,
-    color: COLORS.TEXT_SECONDARY,
   },
   selectedTextStyle: {
     ...TEXT_STYLES.BODY,
-    color: COLORS.TEXT_PRIMARY,
   },
   inputSearchStyle: {
     ...TEXT_STYLES.BODY,
-    color: COLORS.TEXT_PRIMARY,
   },
   iconStyle: {
     width: 20,
@@ -248,7 +242,6 @@ const styles = {
   },
   loadingText: {
     ...TEXT_STYLES.BODY,
-    color: COLORS.TEXT_SECONDARY,
     marginTop: SPACING.SM,
   },
   errorSection: {
@@ -257,16 +250,14 @@ const styles = {
   },
   errorText: {
     ...TEXT_STYLES.ERROR,
-    color: COLORS.ERROR,
     marginBottom: SPACING.MD,
     textAlign: 'center' as const,
   },
   resultSection: {
-    backgroundColor: COLORS.CARD_BACKGROUND,
     padding: SPACING.LG,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     alignItems: 'center' as const,
-    shadowColor: COLORS.SHADOW,
+    shadowColor: '#000000',
     shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
     shadowOpacity: 0.1,
     shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
@@ -274,18 +265,15 @@ const styles = {
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    color: COLORS.TEXT_SECONDARY,
     marginBottom: SPACING.MD,
   },
   resultValue: {
     ...TEXT_STYLES.RESULT,
-    color: COLORS.PRIMARY,
     fontWeight: FONT_WEIGHTS.BOLD,
     marginBottom: SPACING.SM,
   },
   exchangeRate: {
     ...TEXT_STYLES.BODY_SMALL,
-    color: COLORS.TEXT_SECONDARY,
     textAlign: 'center' as const,
   },
 };

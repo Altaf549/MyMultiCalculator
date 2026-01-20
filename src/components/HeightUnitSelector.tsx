@@ -6,7 +6,7 @@ import {
   StyleSheet,
 } from 'react-native';
 import { scale, moderateScale } from '../utils/scaling';
-import { COLORS } from '../styles/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TEXT_STYLES, FONT_WEIGHTS } from '../styles/typography';
 import { COMPONENT_SPACING } from '../styles/spacing';
 import { BMI_CALCULATOR } from '../utils/constants';
@@ -20,15 +20,17 @@ const HeightUnitSelector: React.FC<HeightUnitSelectorProps> = ({
   selectedUnit,
   onUnitChange,
 }) => {
+  const { colors } = useTheme();
+
   return (
     <View style={[
       styles.container,
-      
+      { backgroundColor: colors.CARD_BACKGROUND, borderColor: colors.BORDER }
     ]}>
       <TouchableOpacity
         style={[
           styles.unitButton,
-          selectedUnit === BMI_CALCULATOR.HEIGHT_UNITS.CM && styles.activeButton,
+          selectedUnit === BMI_CALCULATOR.HEIGHT_UNITS.CM && { backgroundColor: colors.PRIMARY },
           selectedUnit === BMI_CALCULATOR.HEIGHT_UNITS.CM ? styles.cmRadius : styles.ftInRadius
         ]}
         onPress={() => onUnitChange(BMI_CALCULATOR.HEIGHT_UNITS.CM)}
@@ -36,7 +38,7 @@ const HeightUnitSelector: React.FC<HeightUnitSelectorProps> = ({
         <Text
           style={[
             styles.unitText,
-            selectedUnit === BMI_CALCULATOR.HEIGHT_UNITS.CM && styles.activeText,
+            { color: selectedUnit === BMI_CALCULATOR.HEIGHT_UNITS.CM ? colors.BACKGROUND : colors.TEXT_SECONDARY },
           ]}
         >
           {BMI_CALCULATOR.HEIGHT_UNITS.CM}
@@ -45,7 +47,7 @@ const HeightUnitSelector: React.FC<HeightUnitSelectorProps> = ({
       <TouchableOpacity
         style={[
           styles.unitButton,
-          selectedUnit === BMI_CALCULATOR.HEIGHT_UNITS.FEET_INCHES && styles.activeButton,
+          selectedUnit === BMI_CALCULATOR.HEIGHT_UNITS.FEET_INCHES && { backgroundColor: colors.PRIMARY },
           selectedUnit === BMI_CALCULATOR.HEIGHT_UNITS.CM ? styles.cmRadius : styles.ftInRadius
         ]}
         onPress={() => onUnitChange(BMI_CALCULATOR.HEIGHT_UNITS.FEET_INCHES)}
@@ -53,7 +55,7 @@ const HeightUnitSelector: React.FC<HeightUnitSelectorProps> = ({
         <Text
           style={[
             styles.unitText,
-            selectedUnit === BMI_CALCULATOR.HEIGHT_UNITS.FEET_INCHES && styles.activeText,
+            { color: selectedUnit === BMI_CALCULATOR.HEIGHT_UNITS.FEET_INCHES ? colors.BACKGROUND : colors.TEXT_SECONDARY },
           ]}
         >
           {BMI_CALCULATOR.HEIGHT_UNITS.FEET_INCHES}
@@ -66,9 +68,7 @@ const HeightUnitSelector: React.FC<HeightUnitSelectorProps> = ({
 const styles = StyleSheet.create({
   container: {
     flexDirection: 'row',
-    backgroundColor: COLORS.CARD_BACKGROUND,
     borderRadius: COMPONENT_SPACING.INPUT_BORDER_RADIUS,
-    borderColor: COLORS.BORDER,
     borderWidth: 1,
   },
   unitButton: {
@@ -78,16 +78,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: 'transparent',
   },
-  activeButton: {
-    backgroundColor: COLORS.PRIMARY,
-  },
   unitText: {
     ...TEXT_STYLES.BUTTON,
-    color: COLORS.TEXT_SECONDARY,
     fontWeight: FONT_WEIGHTS.MEDIUM,
-  },
-  activeText: {
-    color: COLORS.BACKGROUND,
   },
   cmRadius: {
     borderTopLeftRadius: COMPONENT_SPACING.INPUT_BORDER_RADIUS,

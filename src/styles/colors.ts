@@ -88,17 +88,27 @@ export const COLORS = {
 // Theme Types
 export type ThemeColors = typeof COLORS;
 
-// Dark Mode Colors (optional for future implementation)
+// Dark Mode Colors
 export const DARK_COLORS = {
   ...COLORS,
-  BACKGROUND: '#000000',
-  BACKGROUND_DARK: '#1C1C1E',
-  CARD_BACKGROUND: '#1C1C1E',
-  TEXT_PRIMARY: '#FFFFFF',
-  TEXT_SECONDARY: '#AEAEB2',
-  TEXT_TERTIARY: '#8E8E93',
-  BORDER: '#38383A',
-  BORDER_LIGHT: '#48484A',
-  CALCULATOR_BUTTON: '#2C2C2E',
-  CALCULATOR_BUTTON_PRESSED: '#48484A',
+  BACKGROUND: '#000000' as const,
+  BACKGROUND_DARK: '#121212' as const,  // Better dark background
+  CARD_BACKGROUND: '#1C1C1E' as const,
+  TEXT_PRIMARY: '#FFFFFF' as const,
+  TEXT_SECONDARY: '#AEAEB2' as const,
+  TEXT_TERTIARY: '#8E8E93' as const,
+  BORDER: '#38383A' as const,
+  BORDER_LIGHT: '#48484A' as const,
+  CALCULATOR_BUTTON: '#2C2C2E' as const,
+  CALCULATOR_BUTTON_PRESSED: '#48484A' as const,
+  
+  // Enhanced Calculator Colors for Dark Mode
+  SIMPLE_CALCULATOR: '#66BB6A' as const,      // Brighter green
+  SCIENTIFIC_CALCULATOR: '#42A5F5' as const,  // Brighter blue  
+  EMI_CALCULATOR: '#FFA726' as const,         // Brighter orange
+  AGE_CALCULATOR: '#AB47BC' as const,         // Brighter purple
+  GST_CALCULATOR: '#26A69A' as const,         // Brighter teal
+  DISCOUNT_CALCULATOR: '#5C6BC0' as const,    // Brighter indigo
+  CURRENCY_CALCULATOR: '#EF5350' as const,    // Brighter red
+  BMI_CALCULATOR: '#FF7043' as const,         // Deep orange (unique)
 } as const;

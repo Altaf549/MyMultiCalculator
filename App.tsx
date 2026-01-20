@@ -6,13 +6,29 @@
 import React from 'react';
 import { StatusBar } from 'react-native';
 import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { ThemeProvider, useTheme } from './src/context/ThemeContext';
 import AppNavigator from './src/navigation/AppNavigator';
+
+const AppContent: React.FC = () => {
+  const { theme } = useTheme();
+  
+  return (
+    <>
+      <StatusBar 
+        barStyle={theme === 'dark' ? 'light-content' : 'dark-content'} 
+        backgroundColor={theme === 'dark' ? '#000000' : '#007AFF'} 
+      />
+      <AppNavigator />
+    </>
+  );
+};
 
 const App: React.FC = () => {
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle="light-content" backgroundColor="#007AFF" />
-      <AppNavigator />
+      <ThemeProvider>
+        <AppContent />
+      </ThemeProvider>
     </SafeAreaProvider>
   );
 };

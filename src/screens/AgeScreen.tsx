@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { scale } from '../utils/scaling';
-import { COLORS } from '../styles/colors';
+import { useTheme } from '../context/ThemeContext';
 import { TEXT_STYLES, FONT_WEIGHTS } from '../styles/typography';
 import { COMPONENT_SPACING, SPACING } from '../styles/spacing';
 import { AGE_CALCULATOR, COMMON } from '../utils/constants';
@@ -15,6 +15,7 @@ import AppButton from '../components/AppButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 const AgeScreen: React.FC = () => {
+  const { colors } = useTheme();
   const [birthDate, setBirthDate] = useState(new Date());
   const [showPicker, setShowPicker] = useState(false);
   const [age, setAge] = useState({
@@ -60,11 +61,11 @@ const AgeScreen: React.FC = () => {
   };
 
   return (
-    <SafeAreaView  edges={['bottom', 'left', 'right']} style={styles.container}>
+    <SafeAreaView  edges={['bottom', 'left', 'right']} style={[styles.container, { backgroundColor: colors.BACKGROUND }]}>
       <ScrollView contentContainerStyle={styles.content}>
-        <TouchableOpacity style={styles.datePickerButton} onPress={showDatePicker}>
-          <Text style={styles.datePickerLabel}>{AGE_CALCULATOR.BIRTH_DATE_LABEL}</Text>
-          <Text style={styles.selectedDate}>
+        <TouchableOpacity style={[styles.datePickerButton, { backgroundColor: colors.CARD_BACKGROUND }]} onPress={showDatePicker}>
+          <Text style={[styles.datePickerLabel, { color: colors.TEXT_SECONDARY }]}>{AGE_CALCULATOR.BIRTH_DATE_LABEL}</Text>
+          <Text style={[styles.selectedDate, { color: colors.PRIMARY }]}>
             {birthDate.toLocaleDateString()}
           </Text>
         </TouchableOpacity>
@@ -87,25 +88,25 @@ const AgeScreen: React.FC = () => {
         </View>
 
         {age.years > 0 && (
-          <View style={styles.resultSection}>
-            <Text style={styles.resultLabel}>{COMMON.RESULT}</Text>
+          <View style={[styles.resultSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+            <Text style={[styles.resultLabel, { color: colors.TEXT_SECONDARY }]}>{COMMON.RESULT}</Text>
             
             <View style={styles.ageRow}>
               <View style={styles.ageItem}>
-                <Text style={styles.ageValue}>{age.years}</Text>
-                <Text style={styles.ageLabel}>{AGE_CALCULATOR.YEARS}</Text>
+                <Text style={[styles.ageValue, { color: colors.PRIMARY }]}>{age.years}</Text>
+                <Text style={[styles.ageLabel, { color: colors.TEXT_SECONDARY }]}>{AGE_CALCULATOR.YEARS}</Text>
               </View>
               <View style={styles.ageItem}>
-                <Text style={styles.ageValue}>{age.months}</Text>
-                <Text style={styles.ageLabel}>{AGE_CALCULATOR.MONTHS}</Text>
+                <Text style={[styles.ageValue, { color: colors.PRIMARY }]}>{age.months}</Text>
+                <Text style={[styles.ageLabel, { color: colors.TEXT_SECONDARY }]}>{AGE_CALCULATOR.MONTHS}</Text>
               </View>
               <View style={styles.ageItem}>
-                <Text style={styles.ageValue}>{age.days}</Text>
-                <Text style={styles.ageLabel}>{AGE_CALCULATOR.DAYS}</Text>
+                <Text style={[styles.ageValue, { color: colors.PRIMARY }]}>{age.days}</Text>
+                <Text style={[styles.ageLabel, { color: colors.TEXT_SECONDARY }]}>{AGE_CALCULATOR.DAYS}</Text>
               </View>
             </View>
             
-            <Text style={styles.totalDays}>
+            <Text style={[styles.totalDays, { color: colors.TEXT_PRIMARY }]}>
               {AGE_CALCULATOR.TOTAL_DAYS}: {age.totalDays}
             </Text>
           </View>
@@ -118,17 +119,15 @@ const AgeScreen: React.FC = () => {
 const styles = {
   container: {
     flex: 1,
-    backgroundColor: COLORS.BACKGROUND,
   },
   content: {
     padding: COMPONENT_SPACING.SCREEN_PADDING,
   },
   datePickerButton: {
-    backgroundColor: COLORS.CARD_BACKGROUND,
     padding: SPACING.LG,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     marginBottom: SPACING.LG,
-    shadowColor: COLORS.SHADOW,
+    shadowColor: '#000000',
     shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
     shadowOpacity: 0.1,
     shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
@@ -136,23 +135,20 @@ const styles = {
   },
   datePickerLabel: {
     ...TEXT_STYLES.LABEL,
-    color: COLORS.TEXT_SECONDARY,
     marginBottom: SPACING.SM,
   },
   selectedDate: {
     ...TEXT_STYLES.H5,
-    color: COLORS.PRIMARY,
     fontWeight: FONT_WEIGHTS.SEMIBOLD,
   },
   buttonSection: {
     marginBottom: SPACING.LG,
   },
   resultSection: {
-    backgroundColor: COLORS.CARD_BACKGROUND,
     padding: SPACING.LG,
     borderRadius: COMPONENT_SPACING.CARD_BORDER_RADIUS,
     alignItems: 'center' as const,
-    shadowColor: COLORS.SHADOW,
+    shadowColor: '#000000',
     shadowOffset: COMPONENT_SPACING.CARD_SHADOW_OFFSET,
     shadowOpacity: 0.1,
     shadowRadius: COMPONENT_SPACING.CARD_SHADOW_RADIUS,
@@ -160,7 +156,6 @@ const styles = {
   },
   resultLabel: {
     ...TEXT_STYLES.LABEL,
-    color: COLORS.TEXT_SECONDARY,
     marginBottom: SPACING.LG,
   },
   ageRow: {
@@ -174,16 +169,13 @@ const styles = {
   },
   ageValue: {
     ...TEXT_STYLES.RESULT,
-    color: COLORS.PRIMARY,
     marginBottom: SPACING.XS,
   },
   ageLabel: {
     ...TEXT_STYLES.BODY_SMALL,
-    color: COLORS.TEXT_SECONDARY,
   },
   totalDays: {
     ...TEXT_STYLES.BODY,
-    color: COLORS.TEXT_PRIMARY,
     fontWeight: FONT_WEIGHTS.MEDIUM,
   },
 };
