@@ -11,3 +11,4 @@ export const GST = 'GST';
 export const DISCOUNT = 'Discount';
 export const CURRENCY_CONVERTER = 'CurrencyConverter';
 export const UNIT_CONVERTER = 'UnitConverter';
+export const MATH_UTILS = 'MathUtils';

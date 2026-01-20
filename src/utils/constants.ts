@@ -32,7 +32,7 @@ export const CALCULATORS = {
   SCIENTIFIC: {
     NAME: 'Scientific Calculator',
     DESCRIPTION: 'Advanced mathematical functions',
-    ICON: 'functions',
+    ICON: 'calculate',
   },
   BMI: {
     NAME: 'BMI Calculator',
@@ -67,7 +67,12 @@ export const CALCULATORS = {
   UNIT_CONVERTER: {
     NAME: 'Unit Converter',
     DESCRIPTION: 'Convert between different units',
-    ICON: 'straighten',
+    ICON: 'swap-horiz',
+  },
+  MATH_UTILS: {
+    NAME: 'Math Utilities',
+    DESCRIPTION: 'Advanced mathematical calculations',
+    ICON: 'functions',
   },
 } as const;
 

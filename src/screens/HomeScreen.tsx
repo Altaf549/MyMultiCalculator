@@ -16,7 +16,7 @@ import { COMPONENT_SPACING } from '../styles/spacing';
 import { CALCULATORS, HOME_SCREEN } from '../utils/constants';
 import { RootStackParamList } from '../types/navigation';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { SIMPLE_CALCULATOR, SCIENTIFIC_CALCULATOR, BMI, EMI, AGE, GST, DISCOUNT, CURRENCY_CONVERTER,UNIT_CONVERTER } from '../navigation/Routes';
+import { SIMPLE_CALCULATOR, SCIENTIFIC_CALCULATOR, BMI, EMI, AGE, GST, DISCOUNT, CURRENCY_CONVERTER, UNIT_CONVERTER, MATH_UTILS } from '../navigation/Routes';
 
 type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 
@@ -96,6 +96,14 @@ const HomeScreen: React.FC = () => {
       iconName: CALCULATORS.UNIT_CONVERTER.ICON,
       onPress: () => navigation.navigate(UNIT_CONVERTER),
       color: colors.UNIT_CONVERTER,
+    },
+    {
+      key: 'math-utils',
+      title: CALCULATORS.MATH_UTILS.NAME,
+      description: CALCULATORS.MATH_UTILS.DESCRIPTION,
+      iconName: CALCULATORS.MATH_UTILS.ICON,
+      onPress: () => navigation.navigate(MATH_UTILS),
+      color: colors.MATH_UTILS,
     },
   ];
 

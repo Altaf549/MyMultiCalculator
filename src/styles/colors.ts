@@ -84,7 +84,7 @@ export const COLORS = {
   CURRENCY_CALCULATOR: '#F44336',
   BMI_CALCULATOR: '#440606ff',
   UNIT_CONVERTER: '#795548',
-  
+  MATH_UTILS: '#607D8B',
 } as const;
 
 // Theme Types

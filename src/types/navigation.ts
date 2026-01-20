@@ -11,6 +11,7 @@ export type RootStackParamList = {
   Discount: undefined;
   CurrencyConverter: undefined;
   UnitConverter: undefined;
+  MathUtils: undefined;
 };
 
 export type NavigationProp<T extends keyof RootStackParamList> = {

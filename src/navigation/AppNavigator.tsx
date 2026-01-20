@@ -15,9 +15,10 @@ import GstScreen from '../screens/GstScreen';
 import DiscountScreen from '../screens/DiscountScreen';
 import CurrencyConverterScreen from '../screens/CurrencyConverterScreen';
 import UnitConverterScreen from '../screens/UnitConverterScreen';
+import MathUtilsScreen from '../screens/MathUtilsScreen';
 // Import types
 import { RootStackParamList } from '../types/navigation';
-import { HOME, SIMPLE_CALCULATOR, SCIENTIFIC_CALCULATOR, BMI, EMI, AGE, GST, DISCOUNT, CURRENCY_CONVERTER, UNIT_CONVERTER } from './Routes';
+import { HOME, SIMPLE_CALCULATOR, SCIENTIFIC_CALCULATOR, BMI, EMI, AGE, GST, DISCOUNT, CURRENCY_CONVERTER, UNIT_CONVERTER, MATH_UTILS } from './Routes';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
@@ -110,6 +111,13 @@ const AppNavigator: React.FC = () => {
           component={UnitConverterScreen}
           options={{
             title: 'Unit Converter',
+          }}
+        />
+        <Stack.Screen
+          name={MATH_UTILS}
+          component={MathUtilsScreen}
+          options={{
+            title: 'Math Utilities',
           }}
         />
       </Stack.Navigator>
