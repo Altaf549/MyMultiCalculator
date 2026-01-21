@@ -142,6 +142,14 @@ const SimpleCalculatorScreen: React.FC = () => {
     setCurrentInput(String(value * -1));
   };
 
+  const handleBackspace = () => {
+    if (currentInput.length > 1) {
+      setCurrentInput(currentInput.slice(0, -1));
+    } else {
+      setCurrentInput('0');
+    }
+  };
+
   const Button = ({ title, onPress, color, textColor }: any) => (
     <TouchableOpacity
       style={[styles.button, { backgroundColor: color || colors.CALCULATOR_BUTTON }]}
@@ -170,7 +178,7 @@ const SimpleCalculatorScreen: React.FC = () => {
       <ScrollView contentContainerStyle={styles.buttonsContainer}>
         <View style={styles.row}>
           <Button title="AC" onPress={handleClear} color={colors.CALCULATOR_CLEAR} textColor={colors.TEXT_WHITE} />
-          <Button title="+/-" onPress={handlePlusMinus} />
+          <Button title="⌫" onPress={handleBackspace} color={colors.CALCULATOR_CLEAR} textColor={colors.TEXT_WHITE} />
           <Button title="%" onPress={handlePercentage} />
           <Button title="÷" onPress={() => handleOperation('÷')} color={colors.CALCULATOR_OPERATOR} textColor={colors.TEXT_WHITE} />
         </View>
@@ -193,6 +201,7 @@ const SimpleCalculatorScreen: React.FC = () => {
           <Button title="+" onPress={() => handleOperation('+')} color={colors.CALCULATOR_OPERATOR} textColor={colors.TEXT_WHITE} />
         </View>
         <View style={styles.row}>
+          <Button title="+/-" onPress={handlePlusMinus} />
           <Button title="0" onPress={() => handleNumber('0')} style={styles.zeroButton} />
           <Button title="." onPress={handleDecimal} />
           <Button title="=" onPress={handleEqual} color={colors.CALCULATOR_EQUALS} textColor={colors.TEXT_WHITE} />
@@ -248,6 +257,9 @@ const styles = StyleSheet.create({
   zeroButton: {
     flex: 1,
     maxWidth: COMPONENT_SPACING.CALCULATOR_BUTTON_SIZE * 2 + COMPONENT_SPACING.CALCULATOR_BUTTON_SPACING,
+  },
+  equalsButton: {
+    flex: 1,
   },
 });
 

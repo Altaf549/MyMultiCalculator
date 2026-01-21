@@ -137,6 +137,18 @@ const ScientificCalculatorScreen: React.FC = () => {
     }
   };
 
+  const handleBackspace = () => {
+    if (showResult) {
+      // If showing result, clear and start fresh
+      setCurrentExpression('');
+      setShowResult(false);
+    } else if (currentExpression.length > 1) {
+      setCurrentExpression(currentExpression.slice(0, -1));
+    } else {
+      setCurrentExpression('');
+    }
+  };
+
   const Button = ({ title, onPress, color, textColor, size = 'normal' }: any) => (
     <TouchableOpacity
       style={[
@@ -182,24 +194,14 @@ const ScientificCalculatorScreen: React.FC = () => {
           <Button title="x^y" onPress={() => handleScientificFunction('x^y')} color={colors.SECONDARY} textColor={colors.TEXT_WHITE} size="small" />
           <Button title="π" onPress={() => handleScientificFunction('π')} color={colors.SECONDARY} textColor={colors.TEXT_WHITE} size="small" />
           <Button title="e" onPress={() => handleScientificFunction('e')} color={colors.SECONDARY} textColor={colors.TEXT_WHITE} size="small" />
-          <Button title="(" onPress={() => handleNumber('(')} />
+          <Button title="⌫" onPress={handleBackspace} color={colors.CALCULATOR_CLEAR} textColor={colors.TEXT_WHITE} size="small" />
         </View>
 
         {/* Standard Calculator Operations */}
         <View style={styles.row}>
+          <Button title="AC" onPress={handleClear} color={colors.CALCULATOR_CLEAR} textColor={colors.TEXT_WHITE} />
+          <Button title="(" onPress={() => handleNumber('(')} />
           <Button title=")" onPress={() => handleNumber(')')} size="small" />
-          <Button title="+/-" onPress={() => {
-            if (showResult) {
-              setCurrentExpression('-' + calculationHistory);
-              setShowResult(false);
-            } else if (currentExpression && currentExpression !== '0') {
-              if (currentExpression.startsWith('-')) {
-                setCurrentExpression(currentExpression.slice(1));
-              } else {
-                setCurrentExpression('-' + currentExpression);
-              }
-            }
-          }} />
           <Button title="%" onPress={() => {
             if (showResult) {
               const result = parseFloat(calculationHistory) / 100;
@@ -211,7 +213,6 @@ const ScientificCalculatorScreen: React.FC = () => {
             }
           }} />
           <Button title="÷" onPress={() => handleOperation('÷')} color={colors.CALCULATOR_OPERATOR} textColor={colors.TEXT_WHITE} />
-          <Button title="AC" onPress={handleClear} color={colors.CALCULATOR_CLEAR} textColor={colors.TEXT_WHITE} />
         </View>
         <View style={styles.row}>
           <Button title="7" onPress={() => handleNumber('7')} />
@@ -232,6 +233,18 @@ const ScientificCalculatorScreen: React.FC = () => {
           <Button title="+" onPress={() => handleOperation('+')} color={colors.CALCULATOR_OPERATOR} textColor={colors.TEXT_WHITE} />
         </View>
         <View style={styles.row}>
+          <Button title="+/-" onPress={() => {
+            if (showResult) {
+              setCurrentExpression('-' + calculationHistory);
+              setShowResult(false);
+            } else if (currentExpression && currentExpression !== '0') {
+              if (currentExpression.startsWith('-')) {
+                setCurrentExpression(currentExpression.slice(1));
+              } else {
+                setCurrentExpression('-' + currentExpression);
+              }
+            }
+          }} />
           <Button title="0" onPress={() => handleNumber('0')} style={styles.zeroButton} />
           <Button title="." onPress={handleDecimal} />
           <Button title="=" onPress={handleEqual} color={colors.CALCULATOR_EQUALS} textColor={colors.TEXT_WHITE} />
