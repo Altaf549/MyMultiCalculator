@@ -71,16 +71,33 @@ const ScientificCalculatorScreen: React.FC = () => {
         .replace(/x\^y/g, '**')
         .replace(/π/g, Math.PI.toString())
         .replace(/e/g, Math.E.toString())
-        // Replace scientific functions with Math equivalents
-        .replace(/sin\(/g, 'Math.sin(Math.PI/180 * ')
-        .replace(/cos\(/g, 'Math.cos(Math.PI/180 * ')
-        .replace(/tan\(/g, 'Math.tan(Math.PI/180 * ')
+        // Replace scientific functions with Math equivalents (convert degrees to radians)
+        .replace(/sin\(/g, 'Math.sin(')
+        .replace(/cos\(/g, 'Math.cos(')
+        .replace(/tan\(/g, 'Math.tan(')
         .replace(/log\(/g, 'Math.log10(')
         .replace(/ln\(/g, 'Math.log(')
         .replace(/sqrt\(/g, 'Math.sqrt(');
       
+      // Convert degrees to radians for trig functions
+      evalExpression = evalExpression.replace(/Math\.(sin|cos|tan)\(([^)]+)\)/g, (match, func, args) => {
+        // Check if the argument is in degrees (not already in radians)
+        const value = parseFloat(args);
+        if (!isNaN(value)) {
+          const radians = value * Math.PI / 180;
+          return `Math.${func}(${radians})`;
+        }
+        return match;
+      });
+      
       // Use Function constructor for safer evaluation
       const result = new Function('return ' + evalExpression)();
+      
+      // Round very small numbers to 0 for trig functions
+      if (Math.abs(result) < 1e-10) {
+        return 0;
+      }
+      
       return isNaN(result) ? 0 : result;
     } catch (error) {
       return 0;
