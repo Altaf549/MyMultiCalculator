@@ -21,40 +21,56 @@ const SimpleCalculatorScreen: React.FC = () => {
   const [waitingForNewValue, setWaitingForNewValue] = useState(false);
   const [calculationHistory, setCalculationHistory] = useState<string>('');
   const [resultHistory, setResultHistory] = useState<string>('');
+  const [currentInput, setCurrentInput] = useState('0');
+  const [showResult, setShowResult] = useState(false);
 
-  // Update calculation history in real-time based on current state
+  // Update calculation history and real-time result
   useEffect(() => {
     if (previousValue !== null && operation && !waitingForNewValue) {
-      const history = `${previousValue} ${operation} ${display}`;
+      const history = `${previousValue} ${operation} ${currentInput}`;
       setCalculationHistory(history);
+      
+      // Calculate real-time result
+      const currentValue = parseFloat(currentInput);
+      if (!isNaN(currentValue)) {
+        const calculatedResult = calculate(previousValue, currentValue, operation);
+        setDisplay(String(calculatedResult));
+        setShowResult(true);
+      }
     } else if (previousValue !== null && operation && waitingForNewValue) {
       const history = `${previousValue} ${operation}`;
       setCalculationHistory(history);
+      setDisplay(String(previousValue));
+      setShowResult(false);
     } else {
       setCalculationHistory('');
+      setDisplay(currentInput);
+      setShowResult(false);
     }
-  }, [previousValue, operation, display, waitingForNewValue]);
+  }, [previousValue, operation, currentInput, waitingForNewValue]);
 
   const handleNumber = (num: string) => {
     if (waitingForNewValue) {
-      setDisplay(num);
+      setCurrentInput(num);
       setWaitingForNewValue(false);
     } else {
-      setDisplay(display === '0' ? num : display + num);
+      const newInput = currentInput === '0' ? num : currentInput + num;
+      setCurrentInput(newInput);
     }
   };
 
   const handleOperation = (nextOperation: string) => {
-    const inputValue = parseFloat(display);
+    const inputValue = parseFloat(currentInput);
 
     if (previousValue === null) {
       setPreviousValue(inputValue);
-    } else if (operation) {
+    } else if (operation && !waitingForNewValue) {
       const currentValue = previousValue || 0;
       const newValue = calculate(currentValue, inputValue, operation);
-
-      setDisplay(String(newValue));
       setPreviousValue(newValue);
+      setCurrentInput('0');
+    } else {
+      setCurrentInput('0');
     }
 
     setWaitingForNewValue(true);
@@ -77,7 +93,7 @@ const SimpleCalculatorScreen: React.FC = () => {
   };
 
   const handleEqual = () => {
-    const inputValue = parseFloat(display);
+    const inputValue = parseFloat(currentInput);
 
     if (previousValue !== null && operation) {
       const currentValue = previousValue;
@@ -91,6 +107,8 @@ const SimpleCalculatorScreen: React.FC = () => {
       setPreviousValue(null);
       setOperation(null);
       setWaitingForNewValue(true);
+      setCurrentInput(String(newValue));
+      setShowResult(false);
     }
   };
 
@@ -101,25 +119,27 @@ const SimpleCalculatorScreen: React.FC = () => {
     setWaitingForNewValue(false);
     setCalculationHistory('');
     setResultHistory('');
+    setCurrentInput('0');
+    setShowResult(false);
   };
 
   const handleDecimal = () => {
     if (waitingForNewValue) {
-      setDisplay('0.');
+      setCurrentInput('0.');
       setWaitingForNewValue(false);
-    } else if (display.indexOf('.') === -1) {
-      setDisplay(display + '.');
+    } else if (currentInput.indexOf('.') === -1) {
+      setCurrentInput(currentInput + '.');
     }
   };
 
   const handlePercentage = () => {
-    const value = parseFloat(display);
-    setDisplay(String(value / 100));
+    const value = parseFloat(currentInput);
+    setCurrentInput(String(value / 100));
   };
 
   const handlePlusMinus = () => {
-    const value = parseFloat(display);
-    setDisplay(String(value * -1));
+    const value = parseFloat(currentInput);
+    setCurrentInput(String(value * -1));
   };
 
   const Button = ({ title, onPress, color, textColor }: any) => (

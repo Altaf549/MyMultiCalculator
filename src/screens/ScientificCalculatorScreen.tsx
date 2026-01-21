@@ -21,134 +21,93 @@ const ScientificCalculatorScreen: React.FC = () => {
   const [waitingForNewValue, setWaitingForNewValue] = useState(false);
   const [calculationHistory, setCalculationHistory] = useState<string>('');
   const [resultHistory, setResultHistory] = useState<string>('');
+  const [currentExpression, setCurrentExpression] = useState('');
+  const [showResult, setShowResult] = useState(false);
 
-  // Update calculation history in real-time based on current state
+  // Update display based on expression or result
   useEffect(() => {
-    if (previousValue !== null && operation && !waitingForNewValue) {
-      const history = `${previousValue} ${operation} ${display}`;
-      setCalculationHistory(history);
-    } else if (previousValue !== null && operation && waitingForNewValue) {
-      const history = `${previousValue} ${operation}`;
-      setCalculationHistory(history);
+    if (showResult) {
+      // Show the calculated result
+      setDisplay(calculationHistory);
     } else {
-      setCalculationHistory('');
+      // Show the current expression being built
+      setDisplay(currentExpression || '0');
     }
-  }, [previousValue, operation, display, waitingForNewValue]);
+  }, [currentExpression, showResult, calculationHistory]);
 
   const handleNumber = (num: string) => {
-    if (waitingForNewValue) {
-      setDisplay(num);
-      setWaitingForNewValue(false);
+    if (showResult) {
+      // Start new expression after showing result
+      setCurrentExpression(num);
+      setShowResult(false);
     } else {
-      setDisplay(display === '0' ? num : display + num);
+      const newExpression = currentExpression === '0' ? num : currentExpression + num;
+      setCurrentExpression(newExpression);
     }
   };
 
   const handleOperation = (nextOperation: string) => {
-    const inputValue = parseFloat(display);
-
-    if (previousValue === null) {
-      setPreviousValue(inputValue);
-    } else if (operation) {
-      const currentValue = previousValue || 0;
-      const newValue = calculate(currentValue, inputValue, operation);
-
-      setDisplay(String(newValue));
-      setPreviousValue(newValue);
+    if (showResult) {
+      // Start new expression with previous result
+      setCurrentExpression(calculationHistory + ' ' + nextOperation + ' ');
+      setShowResult(false);
+    } else {
+      const newExpression = currentExpression + ' ' + nextOperation + ' ';
+      setCurrentExpression(newExpression);
     }
-
-    setWaitingForNewValue(true);
-    setOperation(nextOperation);
   };
 
-  const calculate = (firstValue: number, secondValue: number, operation: string): number => {
-    switch (operation) {
-      case '+':
-        return firstValue + secondValue;
-      case '-':
-        return firstValue - secondValue;
-      case '×':
-        return firstValue * secondValue;
-      case '÷':
-        return secondValue !== 0 ? firstValue / secondValue : 0;
-      default:
-        return secondValue;
+  // Evaluate the complete expression
+  const evaluateExpression = (expression: string): number => {
+    try {
+      // Replace mathematical symbols and functions with JavaScript equivalents
+      let evalExpression = expression
+        // Handle implicit multiplication (e.g., "8(9+6)" -> "8*(9+6)")
+        .replace(/(\d)\(/g, '$1*(')
+        .replace(/\)(\d)/g, ')*$1')
+        .replace(/\)\(/g, ')*(')
+        .replace(/×/g, '*')
+        .replace(/÷/g, '/')
+        .replace(/x\^y/g, '**')
+        .replace(/π/g, Math.PI.toString())
+        .replace(/e/g, Math.E.toString())
+        // Replace scientific functions with Math equivalents
+        .replace(/sin\(/g, 'Math.sin(Math.PI/180 * ')
+        .replace(/cos\(/g, 'Math.cos(Math.PI/180 * ')
+        .replace(/tan\(/g, 'Math.tan(Math.PI/180 * ')
+        .replace(/log\(/g, 'Math.log10(')
+        .replace(/ln\(/g, 'Math.log(')
+        .replace(/sqrt\(/g, 'Math.sqrt(');
+      
+      // Use Function constructor for safer evaluation
+      const result = new Function('return ' + evalExpression)();
+      return isNaN(result) ? 0 : result;
+    } catch (error) {
+      return 0;
     }
   };
 
   const handleScientificFunction = (func: string) => {
-    const value = parseFloat(display);
-    let result = 0;
-    let operationSymbol = '';
-
-    switch (func) {
-      case 'sin':
-        result = Math.sin(value * Math.PI / 180);
-        operationSymbol = 'sin';
-        break;
-      case 'cos':
-        result = Math.cos(value * Math.PI / 180);
-        operationSymbol = 'cos';
-        break;
-      case 'tan':
-        result = Math.tan(value * Math.PI / 180);
-        operationSymbol = 'tan';
-        break;
-      case 'log':
-        result = Math.log10(value);
-        operationSymbol = 'log';
-        break;
-      case 'ln':
-        result = Math.log(value);
-        operationSymbol = 'ln';
-        break;
-      case 'sqrt':
-        result = Math.sqrt(value);
-        operationSymbol = '√';
-        break;
-      case 'x^y':
-        setOperation('x^y');
-        setPreviousValue(value);
-        setWaitingForNewValue(true);
-        return;
-      case 'π':
-        setDisplay(String(Math.PI));
-        return;
-      case 'e':
-        setDisplay(String(Math.E));
-        return;
+    if (showResult) {
+      // Start new expression with function
+      setCurrentExpression(func + '(');
+      setShowResult(false);
+    } else {
+      const newExpression = currentExpression + func + '(';
+      setCurrentExpression(newExpression);
     }
-
-    // Create result history for scientific functions
-    const history = `${operationSymbol}(${value}) = ${result}`;
-    setResultHistory(history);
-    setCalculationHistory('');
-
-    setDisplay(String(result));
-    setWaitingForNewValue(true);
   };
 
   const handleEqual = () => {
-    const inputValue = parseFloat(display);
-
-    if (previousValue !== null && operation) {
-      const currentValue = previousValue;
-      let newValue = 0;
-
-      if (operation === 'x^y') {
-        newValue = Math.pow(currentValue, inputValue);
-      } else {
-        newValue = calculate(currentValue, inputValue, operation);
-      }
+    if (currentExpression.trim()) {
+      const result = evaluateExpression(currentExpression);
       
-      // Create result history string with result
-      const result = `${currentValue} ${operation} ${inputValue} = ${newValue}`;
-      setResultHistory(result);
-
-      setDisplay(String(newValue));
-      setPreviousValue(null);
-      setOperation(null);
-      setWaitingForNewValue(true);
+      // Create result history string
+      const history = `${currentExpression} = ${result}`;
+      setResultHistory(history);
+      setCalculationHistory(String(result));
+      
+      setShowResult(true);
     }
   };
 
@@ -159,14 +118,22 @@ const ScientificCalculatorScreen: React.FC = () => {
     setWaitingForNewValue(false);
     setCalculationHistory('');
     setResultHistory('');
+    setCurrentExpression('');
+    setShowResult(false);
   };
 
   const handleDecimal = () => {
-    if (waitingForNewValue) {
-      setDisplay('0.');
-      setWaitingForNewValue(false);
-    } else if (display.indexOf('.') === -1) {
-      setDisplay(display + '.');
+    if (showResult) {
+      setCurrentExpression('0.');
+      setShowResult(false);
+    } else {
+      // Add decimal point if last character is a number or we're at start
+      const lastChar = currentExpression.slice(-1);
+      if (currentExpression === '0' || /[0-9]/.test(lastChar)) {
+        setCurrentExpression(currentExpression + '.');
+      } else if (currentExpression === '' || /[-+×÷*\/(]/.test(lastChar)) {
+        setCurrentExpression(currentExpression + '0.');
+      }
     }
   };
 
@@ -221,8 +188,28 @@ const ScientificCalculatorScreen: React.FC = () => {
         {/* Standard Calculator Operations */}
         <View style={styles.row}>
           <Button title=")" onPress={() => handleNumber(')')} size="small" />
-          <Button title="+/-" onPress={() => setDisplay(String(parseFloat(display) * -1))} />
-          <Button title="%" onPress={() => setDisplay(String(parseFloat(display) / 100))} />
+          <Button title="+/-" onPress={() => {
+            if (showResult) {
+              setCurrentExpression('-' + calculationHistory);
+              setShowResult(false);
+            } else if (currentExpression && currentExpression !== '0') {
+              if (currentExpression.startsWith('-')) {
+                setCurrentExpression(currentExpression.slice(1));
+              } else {
+                setCurrentExpression('-' + currentExpression);
+              }
+            }
+          }} />
+          <Button title="%" onPress={() => {
+            if (showResult) {
+              const result = parseFloat(calculationHistory) / 100;
+              setCurrentExpression(String(result));
+              setShowResult(false);
+            } else {
+              // Add % operator
+              setCurrentExpression(currentExpression + '%');
+            }
+          }} />
           <Button title="÷" onPress={() => handleOperation('÷')} color={colors.CALCULATOR_OPERATOR} textColor={colors.TEXT_WHITE} />
           <Button title="AC" onPress={handleClear} color={colors.CALCULATOR_CLEAR} textColor={colors.TEXT_WHITE} />
         </View>
