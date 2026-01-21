@@ -85,6 +85,15 @@ const ScientificCalculatorScreen: React.FC = () => {
         const value = parseFloat(args);
         if (!isNaN(value)) {
           const radians = value * Math.PI / 180;
+          
+          // Handle special cases for tan
+          if (func === 'tan') {
+            // tan(90°) and tan(270°) should be undefined/infinite
+            if (Math.abs(value % 180 - 90) < 1e-10) {
+              return 'Infinity';
+            }
+          }
+          
           return `Math.${func}(${radians})`;
         }
         return match;
@@ -92,6 +101,11 @@ const ScientificCalculatorScreen: React.FC = () => {
       
       // Use Function constructor for safer evaluation
       const result = new Function('return ' + evalExpression)();
+      
+      // Handle Infinity case for tan(90°) and tan(270°)
+      if (!isFinite(result)) {
+        return Infinity;
+      }
       
       // Round very small numbers to 0 for trig functions
       if (Math.abs(result) < 1e-10) {
