@@ -5,6 +5,7 @@ import { EMI_CALCULATOR, SCIENTIFIC_CALCULATOR } from "../utils/constants";
 export const COLORS = {
   // Primary Colors
   PRIMARY: '#009688',
+  PRIMARY_WITH_FIFTY: '#00968781',
   PRIMARY_LIGHT: '#4DB6AC',
   PRIMARY_DARK: '#00695C',
   
@@ -24,6 +25,7 @@ export const COLORS = {
   TEXT_SECONDARY: '#8E8E93',
   TEXT_TERTIARY: '#C7C7CC',
   TEXT_WHITE: '#FFFFFF',
+  TEXT_WHITE_WITH_FIFTY: '#ffffff97',
   TEXT_WHITE_OP_8: '#ffffff89',
   TEXT_DISABLED: '#D1D1D6',
   

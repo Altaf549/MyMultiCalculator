@@ -65,15 +65,15 @@ const AppButton: React.FC<AppButtonProps> = ({
     // Variant styles
     const variantStyles = {
       primary: {
-        backgroundColor: disabled ? colors.TEXT_DISABLED : colors.PRIMARY,
+        backgroundColor: disabled ? colors.PRIMARY_WITH_FIFTY : colors.PRIMARY,
       },
       secondary: {
-        backgroundColor: disabled ? colors.TEXT_DISABLED : colors.SECONDARY,
+        backgroundColor: disabled ? colors.PRIMARY_WITH_FIFTY : colors.SECONDARY,
       },
       outline: {
         backgroundColor: 'transparent',
         borderWidth: 1,
-        borderColor: disabled ? colors.TEXT_DISABLED : colors.PRIMARY,
+        borderColor: disabled ? colors.PRIMARY_WITH_FIFTY : colors.PRIMARY,
       },
       ghost: {
         backgroundColor: 'transparent',
@@ -102,16 +102,16 @@ const AppButton: React.FC<AppButtonProps> = ({
     // Variant text styles
     const variantTextStyles = {
       primary: {
-        color: disabled ? colors.TEXT_WHITE : colors.TEXT_WHITE,
+        color: disabled ? colors.TEXT_WHITE_WITH_FIFTY : colors.TEXT_WHITE,
       },
       secondary: {
-        color: disabled ? colors.TEXT_WHITE : colors.TEXT_WHITE,
+        color: disabled ? colors.TEXT_WHITE_WITH_FIFTY : colors.TEXT_WHITE,
       },
       outline: {
-        color: disabled ? colors.TEXT_DISABLED : colors.PRIMARY,
+        color: disabled ? colors.PRIMARY_WITH_FIFTY : colors.PRIMARY,
       },
       ghost: {
-        color: disabled ? colors.TEXT_DISABLED : colors.PRIMARY,
+        color: disabled ? colors.PRIMARY_WITH_FIFTY : colors.PRIMARY,
       },
     };
 

@@ -187,7 +187,7 @@ const BmiScreen: React.FC = () => {
           </View>
         )}
 
-        <View style={[styles.infoSection, { backgroundColor: colors.CARD_BACKGROUND }]}>
+        <View style={[styles.infoSection]}>
           <Text style={[styles.infoTitle, { color: colors.TEXT_PRIMARY }]}>BMI Categories:</Text>
           <Text style={[styles.infoItem, { color: colors.BMI_UNDERWEIGHT }]}>
             Underweight: {'< 18.5'}
